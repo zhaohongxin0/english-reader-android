@@ -60,10 +60,17 @@ public class MainActivity extends Activity {
     private int wordPosition = 0;
     private boolean wordAnswerShown = false;
     private final List<Integer> wordQueue = new ArrayList<>();
+    private int sentenceStage = SENTENCE_STAGE_ZH_TO_EN;
+    private int sentencePosition = 0;
+    private boolean sentenceAnswerShown = false;
+    private final List<Integer> sentenceQueue = new ArrayList<>();
+    private Runnable backAction;
 
     private static final int WORD_STAGE_FOLLOW = 0;
     private static final int WORD_STAGE_ZH_TO_EN = 1;
     private static final int WORD_STAGE_EN_TO_ZH = 2;
+    private static final int SENTENCE_STAGE_ZH_TO_EN = 0;
+    private static final int SENTENCE_STAGE_EN_TO_ZH = 1;
     private static final String RELEASE_API_URL =
             "https://api.github.com/repos/zhaohongxin0/english-reader-android/releases/latest";
     private static final String APK_MIME_TYPE = "application/vnd.android.package-archive";
@@ -81,8 +88,18 @@ public class MainActivity extends Activity {
         super.onDestroy();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (backAction != null) {
+            backAction.run();
+            return;
+        }
+        super.onBackPressed();
+    }
+
     private void showLessonList() {
         stopPlayback();
+        backAction = null;
         try {
             JSONObject root = new JSONObject(readAssetText("lessons/index.json"));
             JSONArray lessons = root.getJSONArray("lessons");
@@ -156,6 +173,7 @@ public class MainActivity extends Activity {
     private void showLessonModeChoice(Lesson lesson) {
         stopPlayback();
         currentLesson = lesson;
+        backAction = this::showLessonList;
 
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
@@ -218,8 +236,83 @@ public class MainActivity extends Activity {
 
         Button sentences = makeButton("句子练习");
         sentences.setMinHeight(dp(82));
-        sentences.setOnClickListener(v -> showSentenceLesson(lesson));
+        sentences.setOnClickListener(v -> showSentencePracticeChoice(lesson));
         body.addView(sentences, modeButtonLp(dp(16)));
+
+        root.addView(body, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                0,
+                1));
+        setContentView(root);
+    }
+
+    private void showSentencePracticeChoice(Lesson lesson) {
+        stopPlayback();
+        currentLesson = lesson;
+        backAction = () -> showLessonModeChoice(lesson);
+
+        LinearLayout root = new LinearLayout(this);
+        root.setOrientation(LinearLayout.VERTICAL);
+        root.setBackgroundColor(Color.rgb(247, 249, 252));
+
+        LinearLayout top = new LinearLayout(this);
+        top.setOrientation(LinearLayout.HORIZONTAL);
+        top.setGravity(Gravity.CENTER_VERTICAL);
+        top.setPadding(dp(8), dp(6), dp(8), dp(6));
+        top.setBackgroundColor(Color.rgb(244, 247, 251));
+
+        Button back = new Button(this);
+        back.setText("Back");
+        back.setAllCaps(false);
+        back.setOnClickListener(v -> showLessonModeChoice(lesson));
+        top.addView(back, new LinearLayout.LayoutParams(dp(86), dp(48)));
+
+        TextView header = new TextView(this);
+        header.setText("句子练习");
+        header.setTextColor(Color.rgb(24, 38, 58));
+        header.setTextSize(18);
+        header.setGravity(Gravity.CENTER);
+        header.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
+        top.addView(header, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        root.addView(top, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        LinearLayout body = new LinearLayout(this);
+        body.setOrientation(LinearLayout.VERTICAL);
+        body.setGravity(Gravity.CENTER_HORIZONTAL);
+        body.setPadding(dp(20), dp(42), dp(20), dp(20));
+
+        TextView title = new TextView(this);
+        title.setText(lesson.subtitle);
+        title.setTextColor(Color.rgb(29, 43, 64));
+        title.setTextSize(24);
+        title.setGravity(Gravity.CENTER);
+        title.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
+        body.addView(title, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        TextView prompt = new TextView(this);
+        prompt.setText("选择句子练习方式");
+        prompt.setTextColor(Color.rgb(93, 109, 126));
+        prompt.setTextSize(16);
+        prompt.setGravity(Gravity.CENTER);
+        LinearLayout.LayoutParams promptLp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        promptLp.setMargins(0, dp(16), 0, dp(20));
+        body.addView(prompt, promptLp);
+
+        Button follow = makeButton("跟读练习");
+        follow.setMinHeight(dp(82));
+        follow.setOnClickListener(v -> showSentenceLesson(lesson));
+        body.addView(follow, modeButtonLp(dp(12)));
+
+        Button promptPractice = makeButton("提示练习");
+        promptPractice.setMinHeight(dp(82));
+        promptPractice.setOnClickListener(v -> startSentencePromptPractice(lesson));
+        body.addView(promptPractice, modeButtonLp(dp(16)));
 
         root.addView(body, new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -252,7 +345,9 @@ public class MainActivity extends Activity {
             JSONArray region = obj.getJSONArray("region");
             SentenceItem sentence = new SentenceItem();
             sentence.text = obj.getString("text");
+            sentence.chinese = obj.optString("chinese");
             sentence.audioPath = obj.getString("audio");
+            sentence.chineseAudioPath = obj.optString("chinese_audio");
             sentence.region = new RectF(
                     (float) region.getDouble(0),
                     (float) region.getDouble(1),
@@ -298,6 +393,7 @@ public class MainActivity extends Activity {
 
     private void showWordPractice(boolean autoPlay) {
         stopPlayback();
+        backAction = () -> showLessonModeChoice(currentLesson);
         if (currentLesson == null || currentLesson.words.isEmpty() || wordQueue.isEmpty()) {
             if (currentLesson != null) {
                 showSentenceLesson(currentLesson);
@@ -320,7 +416,7 @@ public class MainActivity extends Activity {
         Button back = new Button(this);
         back.setText("Back");
         back.setAllCaps(false);
-        back.setOnClickListener(v -> showLessonList());
+        back.setOnClickListener(v -> showLessonModeChoice(currentLesson));
         top.addView(back, new LinearLayout.LayoutParams(dp(86), dp(48)));
 
         TextView title = new TextView(this);
@@ -542,7 +638,8 @@ public class MainActivity extends Activity {
             wordAnswerShown = false;
             showWordPractice(true);
         } else if (wordStage == WORD_STAGE_EN_TO_ZH) {
-            showSentenceLesson(currentLesson);
+            Toast.makeText(this, "词汇练习完成", Toast.LENGTH_SHORT).show();
+            showLessonModeChoice(currentLesson);
         } else {
             wordStage = WORD_STAGE_ZH_TO_EN;
             fillWordQueue();
@@ -567,10 +664,38 @@ public class MainActivity extends Activity {
         }
     }
 
-    private void showSentenceLesson(Lesson lesson) {
+    private void startSentencePromptPractice(Lesson lesson) {
         stopPlayback();
         currentLesson = lesson;
-        activeIndex = -1;
+        sentenceStage = SENTENCE_STAGE_ZH_TO_EN;
+        sentencePosition = 0;
+        sentenceAnswerShown = false;
+        fillSentenceQueue();
+        showSentencePromptPractice(true);
+    }
+
+    private void fillSentenceQueue() {
+        sentenceQueue.clear();
+        if (currentLesson == null) {
+            return;
+        }
+        for (int i = 0; i < currentLesson.items.size(); i++) {
+            sentenceQueue.add(i);
+        }
+        sentencePosition = 0;
+    }
+
+    private void showSentencePromptPractice(boolean autoPlay) {
+        stopPlayback();
+        backAction = () -> showSentencePracticeChoice(currentLesson);
+        if (currentLesson == null || currentLesson.items.isEmpty() || sentenceQueue.isEmpty()) {
+            if (currentLesson != null) {
+                showSentencePracticeChoice(currentLesson);
+            }
+            return;
+        }
+
+        SentenceItem sentence = currentLesson.items.get(sentenceQueue.get(sentencePosition));
 
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
@@ -585,7 +710,225 @@ public class MainActivity extends Activity {
         Button back = new Button(this);
         back.setText("Back");
         back.setAllCaps(false);
-        back.setOnClickListener(v -> showLessonList());
+        back.setOnClickListener(v -> showSentencePracticeChoice(currentLesson));
+        top.addView(back, new LinearLayout.LayoutParams(dp(86), dp(48)));
+
+        TextView title = new TextView(this);
+        title.setText(sentenceStageTitle());
+        title.setTextColor(Color.rgb(24, 38, 58));
+        title.setTextSize(17);
+        title.setGravity(Gravity.CENTER);
+        title.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
+        top.addView(title, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        root.addView(top, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        LinearLayout body = new LinearLayout(this);
+        body.setOrientation(LinearLayout.VERTICAL);
+        body.setGravity(Gravity.CENTER_HORIZONTAL);
+        body.setPadding(dp(18), dp(28), dp(18), dp(12));
+
+        TextView progress = new TextView(this);
+        progress.setText(sentenceProgressText());
+        progress.setTextColor(Color.rgb(93, 109, 126));
+        progress.setTextSize(15);
+        progress.setGravity(Gravity.CENTER);
+        body.addView(progress, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        LinearLayout card = new LinearLayout(this);
+        card.setOrientation(LinearLayout.VERTICAL);
+        card.setGravity(Gravity.CENTER);
+        card.setPadding(dp(18), dp(24), dp(18), dp(24));
+        card.setBackgroundColor(Color.rgb(250, 252, 255));
+        LinearLayout.LayoutParams cardLp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                0,
+                1);
+        cardLp.setMargins(0, dp(18), 0, dp(18));
+
+        TextView prompt = new TextView(this);
+        prompt.setText(sentencePromptText(sentence));
+        prompt.setTextColor(Color.rgb(20, 36, 56));
+        prompt.setTextSize(30);
+        prompt.setGravity(Gravity.CENTER);
+        prompt.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
+        card.addView(prompt, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        TextView answer = new TextView(this);
+        answer.setText(sentenceAnswerText(sentence));
+        answer.setTextColor(Color.rgb(13, 103, 196));
+        answer.setTextSize(24);
+        answer.setGravity(Gravity.CENTER);
+        LinearLayout.LayoutParams answerLp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        answerLp.setMargins(0, dp(22), 0, 0);
+        card.addView(answer, answerLp);
+        body.addView(card, cardLp);
+
+        LinearLayout controls = new LinearLayout(this);
+        controls.setOrientation(LinearLayout.VERTICAL);
+        controls.setGravity(Gravity.CENTER);
+
+        if (!sentenceAnswerShown) {
+            boolean hasPromptAudio = sentencePromptHasAudio(sentence);
+            if (hasPromptAudio) {
+                Button repeat = makeButton("再听提示");
+                repeat.setOnClickListener(v -> playSentencePrompt(sentence));
+                controls.addView(repeat, fullButtonLp(0));
+            }
+
+            Button show = makeButton("查看答案");
+            show.setOnClickListener(v -> {
+                sentenceAnswerShown = true;
+                showSentencePromptPractice(false);
+                playSentenceAnswer(sentence);
+            });
+            controls.addView(show, fullButtonLp(hasPromptAudio ? dp(10) : 0));
+        } else {
+            LinearLayout row = new LinearLayout(this);
+            row.setOrientation(LinearLayout.HORIZONTAL);
+            row.setGravity(Gravity.CENTER);
+
+            Button mastered = makeButton("会了");
+            mastered.setOnClickListener(v -> completeCurrentSentence(true));
+            row.addView(mastered, new LinearLayout.LayoutParams(0, dp(52), 1));
+
+            Button retry = makeButton("再练一次");
+            retry.setOnClickListener(v -> completeCurrentSentence(false));
+            LinearLayout.LayoutParams retryLp = new LinearLayout.LayoutParams(0, dp(52), 1);
+            retryLp.setMargins(dp(10), 0, 0, 0);
+            row.addView(retry, retryLp);
+            controls.addView(row, new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT));
+        }
+
+        body.addView(controls, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        root.addView(body, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                0,
+                1));
+        setContentView(root);
+
+        if (autoPlay) {
+            handler.postDelayed(() -> {
+                if (currentLesson != null && !sentenceQueue.isEmpty()) {
+                    playSentencePrompt(currentLesson.items.get(sentenceQueue.get(sentencePosition)));
+                }
+            }, 220);
+        }
+    }
+
+    private String sentenceStageTitle() {
+        return sentenceStage == SENTENCE_STAGE_ZH_TO_EN ? "看中文，说英文" : "听英文，说中文";
+    }
+
+    private String sentenceProgressText() {
+        return "没记住的会继续出现，还剩 " + sentenceQueue.size() + " 句";
+    }
+
+    private String sentencePromptText(SentenceItem sentence) {
+        return sentenceStage == SENTENCE_STAGE_ZH_TO_EN ? sentence.chinese : sentence.text;
+    }
+
+    private String sentenceAnswerText(SentenceItem sentence) {
+        if (!sentenceAnswerShown) {
+            return sentenceStage == SENTENCE_STAGE_ZH_TO_EN ? "请说出英文句子" : "请说出中文意思";
+        }
+        return sentenceStage == SENTENCE_STAGE_ZH_TO_EN ? sentence.text : sentence.chinese;
+    }
+
+    private void completeCurrentSentence(boolean mastered) {
+        if (sentenceQueue.isEmpty()) {
+            advanceSentenceStage();
+            return;
+        }
+        int current = sentenceQueue.remove(sentencePosition);
+        if (!mastered) {
+            sentenceQueue.add(current);
+        }
+        if (sentenceQueue.isEmpty()) {
+            advanceSentenceStage();
+            return;
+        }
+        if (sentencePosition >= sentenceQueue.size()) {
+            sentencePosition = 0;
+        }
+        sentenceAnswerShown = false;
+        showSentencePromptPractice(true);
+    }
+
+    private void advanceSentenceStage() {
+        if (sentenceStage == SENTENCE_STAGE_ZH_TO_EN) {
+            sentenceStage = SENTENCE_STAGE_EN_TO_ZH;
+            fillSentenceQueue();
+            sentenceAnswerShown = false;
+            showSentencePromptPractice(true);
+            return;
+        }
+        Toast.makeText(this, "句子提示练习完成", Toast.LENGTH_SHORT).show();
+        showSentencePracticeChoice(currentLesson);
+    }
+
+    private boolean sentencePromptHasAudio(SentenceItem sentence) {
+        if (sentenceStage == SENTENCE_STAGE_ZH_TO_EN) {
+            return sentence.chineseAudioPath != null && !sentence.chineseAudioPath.isEmpty();
+        }
+        return sentence.audioPath != null && !sentence.audioPath.isEmpty();
+    }
+
+    private void playSentencePrompt(SentenceItem sentence) {
+        if (sentenceStage == SENTENCE_STAGE_ZH_TO_EN) {
+            playOptionalAsset(sentence.chineseAudioPath);
+        } else {
+            playOptionalAsset(sentence.audioPath);
+        }
+    }
+
+    private void playSentenceAnswer(SentenceItem sentence) {
+        if (sentenceStage == SENTENCE_STAGE_ZH_TO_EN) {
+            playOptionalAsset(sentence.audioPath);
+        } else {
+            playOptionalAsset(sentence.chineseAudioPath);
+        }
+    }
+
+    private boolean playOptionalAsset(String audioPath) {
+        if (audioPath == null || audioPath.isEmpty()) {
+            return false;
+        }
+        playAsset(audioPath, null);
+        return true;
+    }
+
+    private void showSentenceLesson(Lesson lesson) {
+        stopPlayback();
+        currentLesson = lesson;
+        activeIndex = -1;
+        backAction = () -> showSentencePracticeChoice(lesson);
+
+        LinearLayout root = new LinearLayout(this);
+        root.setOrientation(LinearLayout.VERTICAL);
+        root.setBackgroundColor(Color.WHITE);
+
+        LinearLayout top = new LinearLayout(this);
+        top.setOrientation(LinearLayout.HORIZONTAL);
+        top.setGravity(Gravity.CENTER_VERTICAL);
+        top.setPadding(dp(8), dp(6), dp(8), dp(6));
+        top.setBackgroundColor(Color.rgb(244, 247, 251));
+
+        Button back = new Button(this);
+        back.setText("Back");
+        back.setAllCaps(false);
+        back.setOnClickListener(v -> showSentencePracticeChoice(lesson));
         top.addView(back, new LinearLayout.LayoutParams(dp(86), dp(48)));
 
         TextView title = new TextView(this);
@@ -952,7 +1295,9 @@ public class MainActivity extends Activity {
 
     private static final class SentenceItem {
         String text;
+        String chinese;
         String audioPath;
+        String chineseAudioPath;
         RectF region;
     }
 
