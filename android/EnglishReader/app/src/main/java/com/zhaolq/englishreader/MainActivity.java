@@ -526,6 +526,10 @@ public class MainActivity extends Activity {
             });
             controls.addView(show, fullButtonLp(dp(10)));
         } else {
+            Button listenAgain = makeButton("再听一遍");
+            listenAgain.setOnClickListener(v -> playWordAnswer(word));
+            controls.addView(listenAgain, fullButtonLp(0));
+
             LinearLayout row = new LinearLayout(this);
             row.setOrientation(LinearLayout.HORIZONTAL);
             row.setGravity(Gravity.CENTER);
@@ -539,9 +543,11 @@ public class MainActivity extends Activity {
             LinearLayout.LayoutParams retryLp = new LinearLayout.LayoutParams(0, dp(52), 1);
             retryLp.setMargins(dp(10), 0, 0, 0);
             row.addView(retry, retryLp);
-            controls.addView(row, new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams rowLp = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            rowLp.setMargins(0, dp(10), 0, 0);
+            controls.addView(row, rowLp);
         }
 
         body.addView(controls, new LinearLayout.LayoutParams(
@@ -815,6 +821,10 @@ public class MainActivity extends Activity {
             });
             controls.addView(show, fullButtonLp(hasPromptAudio ? dp(10) : 0));
         } else {
+            Button listenAgain = makeButton("再听一遍");
+            listenAgain.setOnClickListener(v -> playSentenceAnswer(sentence));
+            controls.addView(listenAgain, fullButtonLp(0));
+
             LinearLayout row = new LinearLayout(this);
             row.setOrientation(LinearLayout.HORIZONTAL);
             row.setGravity(Gravity.CENTER);
@@ -828,9 +838,11 @@ public class MainActivity extends Activity {
             LinearLayout.LayoutParams retryLp = new LinearLayout.LayoutParams(0, dp(52), 1);
             retryLp.setMargins(dp(10), 0, 0, 0);
             row.addView(retry, retryLp);
-            controls.addView(row, new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams rowLp = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            rowLp.setMargins(0, dp(10), 0, 0);
+            controls.addView(row, rowLp);
         }
 
         body.addView(controls, new LinearLayout.LayoutParams(
@@ -1057,6 +1069,10 @@ public class MainActivity extends Activity {
             });
             controls.addView(show, fullButtonLp(dp(10)));
         } else {
+            Button listenAgain = makeButton("再听一遍");
+            listenAgain.setOnClickListener(v -> playTransferAnswer(transfer));
+            controls.addView(listenAgain, fullButtonLp(0));
+
             LinearLayout row = new LinearLayout(this);
             row.setOrientation(LinearLayout.HORIZONTAL);
             row.setGravity(Gravity.CENTER);
@@ -1070,9 +1086,11 @@ public class MainActivity extends Activity {
             LinearLayout.LayoutParams retryLp = new LinearLayout.LayoutParams(0, dp(52), 1);
             retryLp.setMargins(dp(10), 0, 0, 0);
             row.addView(retry, retryLp);
-            controls.addView(row, new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams rowLp = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            rowLp.setMargins(0, dp(10), 0, 0);
+            controls.addView(row, rowLp);
         }
 
         body.addView(controls, new LinearLayout.LayoutParams(
