@@ -1,0 +1,10 @@
+{
+  "lessons": [
+    {
+      "id": "lesson1",
+      "title": "Lesson 1",
+      "subtitle": "This / That / These / Those",
+      "manifest": "lessons/lesson1/lesson.json"
+    }
+  ]
+}

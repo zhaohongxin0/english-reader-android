@@ -1,0 +1,17 @@
+.DS_Store
+
+# Android / Gradle generated files
+android/EnglishReader/.gradle/
+android/EnglishReader/build/
+android/EnglishReader/app/build/
+android/EnglishReader/local.properties
+
+# Local runtime output
+logs/
+output/
+tmp/
+.playwright-cli/
+
+# Local signing material should never be committed.
+*.jks
+*.keystore

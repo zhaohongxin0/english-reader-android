@@ -1,0 +1,158 @@
+{
+  "provider": "MiniMax",
+  "model": "speech-2.8-hd",
+  "english_voice_id": "English_Graceful_Lady",
+  "chinese_voice_id": "Chinese (Mandarin)_Crisp_Girl",
+  "items": [
+    {
+      "id": "this",
+      "english": "this",
+      "chinese": "这个",
+      "english_audio": {
+        "text": "this",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "this_en.mp3",
+        "bytes": 32244,
+        "audio_length": 936,
+        "trace_id": "0699d8ed0c21d4c326b209219b96e0e1",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "这个",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "this_zh.mp3",
+        "bytes": 34548,
+        "audio_length": 1008,
+        "trace_id": "0699d8f054c7da32a3f68eb604f21c33",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "that",
+      "english": "that",
+      "chinese": "那个",
+      "english_audio": {
+        "text": "that",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "that_en.mp3",
+        "bytes": 35700,
+        "audio_length": 1044,
+        "trace_id": "0699d8f253ed4afc07293141f6dada51",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "那个",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "that_zh.mp3",
+        "bytes": 34548,
+        "audio_length": 1008,
+        "trace_id": "0699d8f48ac63e87b832db2476676335",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "these",
+      "english": "these",
+      "chinese": "这些",
+      "english_audio": {
+        "text": "these",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "these_en.mp3",
+        "bytes": 36852,
+        "audio_length": 1080,
+        "trace_id": "0699d8f7f2774d9e0a78b213a08163fb",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "这些",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "these_zh.mp3",
+        "bytes": 40308,
+        "audio_length": 1188,
+        "trace_id": "0699d8f93fc87fa5abd8ee19f69de2eb",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "those",
+      "english": "those",
+      "chinese": "那些",
+      "english_audio": {
+        "text": "those",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "those_en.mp3",
+        "bytes": 38004,
+        "audio_length": 1116,
+        "trace_id": "0699d8fc9e7893dee17bf242851f174e",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "那些",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "those_zh.mp3",
+        "bytes": 38004,
+        "audio_length": 1116,
+        "trace_id": "0699d8fe6041c418537cf40fa8eb1469",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "desk",
+      "english": "desk",
+      "chinese": "课桌",
+      "english_audio": {
+        "text": "desk",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "desk_en.mp3",
+        "bytes": 35700,
+        "audio_length": 1044,
+        "trace_id": "0699d901e675303dd76267458d6f6da9",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "课桌",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "desk_zh.mp3",
+        "bytes": 38004,
+        "audio_length": 1116,
+        "trace_id": "0699d9031e973263af2b9cc490bf6d1c",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "table",
+      "english": "table",
+      "chinese": "桌子",
+      "english_audio": {
+        "text": "table",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "table_en.mp3",
+        "bytes": 27636,
+        "audio_length": 792,
+        "trace_id": "0699d906b32150a751e60a72867179bd",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "桌子",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "table_zh.mp3",
+        "bytes": 34548,
+        "audio_length": 1008,
+        "trace_id": "0699d908bb7ec1a3ca78286fe9484dcb",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    }
+  ]
+}
