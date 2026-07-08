@@ -1601,7 +1601,7 @@ public class MainActivity extends Activity {
         private float downX;
         private float downY;
         private final int touchSlop;
-        private static final float CAPTION_FRACTION = 0.27f;
+        private static final float CAPTION_FRACTION = 0.22f;
         private static final int ITEMS_PER_PAGE = 4;
 
         LessonView(Activity activity) {
@@ -1646,9 +1646,11 @@ public class MainActivity extends Activity {
                 cardPaint.setStyle(Paint.Style.FILL);
                 cardPaint.setColor(Color.WHITE);
                 canvas.drawRoundRect(card, dp(8), dp(8), cardPaint);
-                canvas.drawBitmap(lesson.bitmap, source, card, bitmapPaint);
 
                 RectF caption = captionRect(card);
+                RectF image = imageRect(card, caption);
+                canvas.drawBitmap(lesson.bitmap, source, image, bitmapPaint);
+
                 cardPaint.setStyle(Paint.Style.FILL);
                 cardPaint.setColor(Color.WHITE);
                 canvas.drawRect(caption, cardPaint);
@@ -1747,7 +1749,9 @@ public class MainActivity extends Activity {
             float gap = dp(8);
             float dotsHeight = dp(28);
             float cardWidth = (viewWidth - padding * 2f - gap * (columns - 1)) / columns;
-            float naturalCardHeight = cardWidth / averageItemAspectRatio();
+            float naturalImageHeight = cardWidth / averageItemAspectRatio();
+            float naturalCaptionHeight = Math.max(dp(60), naturalImageHeight * 0.28f);
+            float naturalCardHeight = naturalImageHeight + naturalCaptionHeight;
             float maxCardHeight = (viewHeight - padding * 2f - dotsHeight - Math.max(0, rows - 1) * gap) / rows;
             float cardHeight = Math.min(naturalCardHeight, maxCardHeight);
             for (int i = 0; i < visibleCount; i++) {
@@ -1827,13 +1831,23 @@ public class MainActivity extends Activity {
         }
 
         private RectF captionRect(RectF card) {
-            float captionHeight = Math.max(dp(42), card.height() * CAPTION_FRACTION);
+            float captionHeight = Math.max(dp(60), card.height() * CAPTION_FRACTION);
+            captionHeight = Math.min(captionHeight, card.height() * 0.34f);
             float inset = dp(2);
             return new RectF(
                     card.left + inset,
                     card.bottom - captionHeight,
                     card.right - inset,
                     card.bottom - inset);
+        }
+
+        private RectF imageRect(RectF card, RectF caption) {
+            float inset = dp(2);
+            return new RectF(
+                    card.left + inset,
+                    card.top + inset,
+                    card.right - inset,
+                    caption.top);
         }
 
         private void drawSentence(Canvas canvas, String sentence, RectF region) {
