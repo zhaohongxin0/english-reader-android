@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.GradientDrawable;
@@ -31,6 +32,7 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -83,20 +85,22 @@ public class MainActivity extends Activity {
     private static final String RELEASE_API_URL =
             "https://api.github.com/repos/zhaohongxin0/english-reader-android/releases/latest";
     private static final String APK_MIME_TYPE = "application/vnd.android.package-archive";
-    private static final int COLOR_PAGE = Color.rgb(247, 250, 253);
-    private static final int COLOR_TOP_BAR = Color.rgb(239, 246, 255);
+    private static final int COLOR_PAGE = Color.rgb(242, 242, 247);
+    private static final int COLOR_TOP_BAR = Color.rgb(250, 250, 252);
     private static final int COLOR_SURFACE = Color.WHITE;
-    private static final int COLOR_SURFACE_SOFT = Color.rgb(250, 253, 255);
-    private static final int COLOR_TEXT = Color.rgb(24, 38, 58);
-    private static final int COLOR_MUTED = Color.rgb(92, 108, 126);
-    private static final int COLOR_PRIMARY = Color.rgb(20, 112, 214);
-    private static final int COLOR_PRIMARY_DARK = Color.rgb(12, 83, 164);
-    private static final int COLOR_PRIMARY_PRESSED = Color.rgb(8, 74, 148);
-    private static final int COLOR_BUTTON = Color.rgb(255, 255, 255);
-    private static final int COLOR_BUTTON_PRESSED = Color.rgb(229, 241, 255);
-    private static final int COLOR_BORDER = Color.rgb(204, 219, 235);
-    private static final int COLOR_DISABLED = Color.rgb(231, 236, 242);
-    private static final int COLOR_DISABLED_TEXT = Color.rgb(140, 151, 164);
+    private static final int COLOR_SURFACE_SOFT = Color.rgb(255, 255, 255);
+    private static final int COLOR_TEXT = Color.rgb(28, 28, 30);
+    private static final int COLOR_MUTED = Color.rgb(110, 110, 115);
+    private static final int COLOR_TERTIARY = Color.rgb(142, 142, 147);
+    private static final int COLOR_PRIMARY = Color.rgb(0, 122, 255);
+    private static final int COLOR_PRIMARY_DARK = Color.rgb(0, 100, 210);
+    private static final int COLOR_PRIMARY_PRESSED = Color.rgb(0, 94, 190);
+    private static final int COLOR_BUTTON = Color.rgb(229, 229, 234);
+    private static final int COLOR_BUTTON_PRESSED = Color.rgb(209, 209, 214);
+    private static final int COLOR_BORDER = Color.rgb(229, 229, 234);
+    private static final int COLOR_SEPARATOR = Color.rgb(209, 209, 214);
+    private static final int COLOR_DISABLED = Color.rgb(229, 229, 234);
+    private static final int COLOR_DISABLED_TEXT = Color.rgb(174, 174, 178);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,29 +135,34 @@ public class MainActivity extends Activity {
             JSONObject root = new JSONObject(readAssetText("lessons/index.json"));
             JSONArray lessons = root.getJSONArray("lessons");
 
+            ScrollView scroll = new ScrollView(this);
+            scroll.setFillViewport(true);
+            scroll.setBackgroundColor(COLOR_PAGE);
+
             LinearLayout container = new LinearLayout(this);
             container.setOrientation(LinearLayout.VERTICAL);
             container.setGravity(Gravity.CENTER_HORIZONTAL);
-            container.setPadding(dp(20), dp(28), dp(20), dp(20));
+            container.setPadding(dp(24), dp(36), dp(24), dp(24));
             container.setBackgroundColor(COLOR_PAGE);
 
-            TextView title = new TextView(this);
-            title.setText("English Reader");
-            title.setTextColor(COLOR_TEXT);
-            title.setTextSize(26);
-            title.setGravity(Gravity.CENTER);
-            title.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
+            TextView title = makeLargeTitle("English Reader");
             container.addView(title, new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));
 
+            TextView section = makeSectionLabel("课程");
+            LinearLayout.LayoutParams sectionLp = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            sectionLp.setMargins(0, dp(28), 0, 0);
+            container.addView(section, sectionLp);
+
             for (int i = 0; i < lessons.length(); i++) {
                 JSONObject item = lessons.getJSONObject(i);
-                String label = item.getString("title") + "\n" + item.optString("subtitle");
-                Button button = makePrimaryButton(label);
-                button.setTextSize(18);
-                button.setMinHeight(dp(78));
-                button.setOnClickListener(v -> {
+                LinearLayout lessonCard = makeLessonCard(
+                        item.getString("title"),
+                        item.optString("subtitle"),
+                        v -> {
                     try {
                         showLessonModeChoice(loadLesson(item.getString("manifest")));
                     } catch (Exception e) {
@@ -163,8 +172,8 @@ public class MainActivity extends Activity {
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT);
-                lp.setMargins(0, dp(24), 0, 0);
-                container.addView(button, lp);
+                lp.setMargins(0, dp(10), 0, 0);
+                container.addView(lessonCard, lp);
             }
 
             TextView version = new TextView(this);
@@ -187,7 +196,10 @@ public class MainActivity extends Activity {
             updateLp.setMargins(0, dp(12), 0, 0);
             container.addView(update, updateLp);
 
-            setContentView(container);
+            scroll.addView(container, new ScrollView.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT));
+            setContentView(scroll);
         } catch (Exception e) {
             showError(e);
         }
@@ -205,44 +217,39 @@ public class MainActivity extends Activity {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
 
+        ScrollView scroll = new ScrollView(this);
+        scroll.setFillViewport(true);
+        scroll.setBackgroundColor(COLOR_PAGE);
+
         LinearLayout body = new LinearLayout(this);
         body.setOrientation(LinearLayout.VERTICAL);
         body.setGravity(Gravity.CENTER_HORIZONTAL);
-        body.setPadding(dp(20), dp(42), dp(20), dp(20));
+        body.setPadding(dp(24), dp(34), dp(24), dp(24));
 
-        TextView title = new TextView(this);
-        title.setText(lesson.subtitle);
-        title.setTextColor(COLOR_TEXT);
-        title.setTextSize(24);
-        title.setGravity(Gravity.CENTER);
-        title.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
+        TextView title = makeLargeTitle(lesson.subtitle);
         body.addView(title, new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        TextView prompt = new TextView(this);
-        prompt.setText("选择练习内容");
-        prompt.setTextColor(COLOR_MUTED);
-        prompt.setTextSize(16);
-        prompt.setGravity(Gravity.CENTER);
+        TextView prompt = makeSectionLabel("练习内容");
         LinearLayout.LayoutParams promptLp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
-        promptLp.setMargins(0, dp(16), 0, dp(20));
+        promptLp.setMargins(0, dp(28), 0, 0);
         body.addView(prompt, promptLp);
 
-        Button words = makeButton("词汇练习");
-        words.setMinHeight(dp(82));
-        words.setEnabled(!lesson.words.isEmpty());
-        words.setOnClickListener(v -> startWordPractice(lesson));
-        body.addView(words, modeButtonLp(dp(12)));
+        LinearLayout words = makeMenuRow("词汇练习", "6 个核心词汇", !lesson.words.isEmpty(),
+                v -> startWordPractice(lesson));
+        body.addView(words, modeButtonLp(dp(10)));
 
-        Button sentences = makeButton("句子练习");
-        sentences.setMinHeight(dp(82));
-        sentences.setOnClickListener(v -> showSentencePracticeChoice(lesson));
+        LinearLayout sentences = makeMenuRow("句子练习", "基础句型和扩展句型", true,
+                v -> showSentencePracticeChoice(lesson));
         body.addView(sentences, modeButtonLp(dp(16)));
 
-        root.addView(body, new LinearLayout.LayoutParams(
+        scroll.addView(body, new ScrollView.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        root.addView(scroll, new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 0,
                 1));
@@ -261,49 +268,43 @@ public class MainActivity extends Activity {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
 
+        ScrollView scroll = new ScrollView(this);
+        scroll.setFillViewport(true);
+        scroll.setBackgroundColor(COLOR_PAGE);
+
         LinearLayout body = new LinearLayout(this);
         body.setOrientation(LinearLayout.VERTICAL);
         body.setGravity(Gravity.CENTER_HORIZONTAL);
-        body.setPadding(dp(20), dp(42), dp(20), dp(20));
+        body.setPadding(dp(24), dp(34), dp(24), dp(24));
 
-        TextView title = new TextView(this);
-        title.setText(lesson.subtitle);
-        title.setTextColor(COLOR_TEXT);
-        title.setTextSize(24);
-        title.setGravity(Gravity.CENTER);
-        title.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
+        TextView title = makeLargeTitle(lesson.subtitle);
         body.addView(title, new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        TextView prompt = new TextView(this);
-        prompt.setText("选择句子练习方式");
-        prompt.setTextColor(COLOR_MUTED);
-        prompt.setTextSize(16);
-        prompt.setGravity(Gravity.CENTER);
+        TextView prompt = makeSectionLabel("句子练习");
         LinearLayout.LayoutParams promptLp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
-        promptLp.setMargins(0, dp(16), 0, dp(20));
+        promptLp.setMargins(0, dp(28), 0, 0);
         body.addView(prompt, promptLp);
 
-        Button follow = makeButton("跟读练习");
-        follow.setMinHeight(dp(82));
-        follow.setOnClickListener(v -> showSentenceLesson(lesson));
+        LinearLayout follow = makeMenuRow("跟读练习", "8 个基础句子", true,
+                v -> showSentenceLesson(lesson));
         body.addView(follow, modeButtonLp(dp(12)));
 
-        Button promptPractice = makeButton("提示练习");
-        promptPractice.setMinHeight(dp(82));
-        promptPractice.setOnClickListener(v -> startSentencePromptPractice(lesson));
+        LinearLayout promptPractice = makeMenuRow("提示练习", "8 个基础句子", true,
+                v -> startSentencePromptPractice(lesson));
         body.addView(promptPractice, modeButtonLp(dp(16)));
 
-        Button transfer = makeButton("举一反三");
-        transfer.setMinHeight(dp(82));
-        transfer.setEnabled(!lesson.transferItems.isEmpty());
-        transfer.setOnClickListener(v -> startTransferPractice(lesson));
+        LinearLayout transfer = makeMenuRow("举一反三", "30 个扩展句子", !lesson.transferItems.isEmpty(),
+                v -> startTransferPractice(lesson));
         body.addView(transfer, modeButtonLp(dp(16)));
 
-        root.addView(body, new LinearLayout.LayoutParams(
+        scroll.addView(body, new ScrollView.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        root.addView(scroll, new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 0,
                 1));
@@ -418,17 +419,15 @@ public class MainActivity extends Activity {
 
         TextView progress = new TextView(this);
         progress.setText(wordProgressText());
-        progress.setTextColor(COLOR_MUTED);
-        progress.setTextSize(15);
-        progress.setGravity(Gravity.CENTER);
+        styleProgressLabel(progress);
         body.addView(progress, new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
 
         LinearLayout card = new LinearLayout(this);
         card.setOrientation(LinearLayout.VERTICAL);
         card.setGravity(Gravity.CENTER);
-        card.setPadding(dp(18), dp(24), dp(18), dp(24));
+        card.setPadding(dp(24), dp(28), dp(24), dp(28));
         stylePracticeCard(card);
         LinearLayout.LayoutParams cardLp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -493,11 +492,11 @@ public class MainActivity extends Activity {
 
             Button mastered = makePrimaryButton("会了");
             mastered.setOnClickListener(v -> completeCurrentWord(true));
-            row.addView(mastered, new LinearLayout.LayoutParams(0, dp(52), 1));
+            row.addView(mastered, new LinearLayout.LayoutParams(0, dp(56), 1));
 
             Button retry = makeButton("再练一次");
             retry.setOnClickListener(v -> completeCurrentWord(false));
-            LinearLayout.LayoutParams retryLp = new LinearLayout.LayoutParams(0, dp(52), 1);
+            LinearLayout.LayoutParams retryLp = new LinearLayout.LayoutParams(0, dp(56), 1);
             retryLp.setMargins(dp(10), 0, 0, 0);
             row.addView(retry, retryLp);
             LinearLayout.LayoutParams rowLp = new LinearLayout.LayoutParams(
@@ -527,14 +526,17 @@ public class MainActivity extends Activity {
 
     private LinearLayout makeTopBar(String titleText, View.OnClickListener backClick) {
         LinearLayout top = new LinearLayout(this);
-        top.setOrientation(LinearLayout.HORIZONTAL);
-        top.setGravity(Gravity.CENTER_VERTICAL);
-        top.setPadding(dp(10), dp(8), dp(10), dp(8));
+        top.setOrientation(LinearLayout.VERTICAL);
         top.setBackgroundColor(COLOR_TOP_BAR);
 
-        Button back = makeToolbarButton("返回");
+        LinearLayout row = new LinearLayout(this);
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        row.setGravity(Gravity.CENTER_VERTICAL);
+        row.setPadding(dp(16), dp(6), dp(16), dp(6));
+
+        TextView back = makeNavTextButton("‹ 返回", Gravity.CENTER_VERTICAL | Gravity.LEFT);
         back.setOnClickListener(backClick);
-        top.addView(back, new LinearLayout.LayoutParams(dp(72), dp(44)));
+        row.addView(back, new LinearLayout.LayoutParams(dp(90), dp(48)));
 
         TextView header = new TextView(this);
         header.setText(titleText);
@@ -547,12 +549,21 @@ public class MainActivity extends Activity {
                 0,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 1);
-        headerLp.setMargins(dp(8), 0, dp(8), 0);
-        top.addView(header, headerLp);
+        headerLp.setMargins(dp(6), 0, dp(6), 0);
+        row.addView(header, headerLp);
 
-        Button home = makeToolbarButton("首页");
+        TextView home = makeNavTextButton("首页", Gravity.CENTER_VERTICAL | Gravity.RIGHT);
         home.setOnClickListener(v -> showLessonList());
-        top.addView(home, new LinearLayout.LayoutParams(dp(72), dp(44)));
+        row.addView(home, new LinearLayout.LayoutParams(dp(72), dp(48)));
+
+        top.addView(row, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        View separator = new View(this);
+        separator.setBackgroundColor(COLOR_SEPARATOR);
+        top.addView(separator, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                Math.max(1, dp(0.5f))));
         return top;
     }
 
@@ -569,7 +580,7 @@ public class MainActivity extends Activity {
         button.setTextSize(15);
         button.setMinHeight(dp(44));
         button.setMinimumHeight(dp(44));
-        button.setBackground(buttonBackground(COLOR_SURFACE, COLOR_BUTTON_PRESSED, COLOR_BORDER, 8));
+        button.setBackground(buttonBackground(Color.TRANSPARENT, COLOR_BUTTON_PRESSED, Color.TRANSPARENT, 16));
         button.setElevation(0);
         return button;
     }
@@ -580,27 +591,177 @@ public class MainActivity extends Activity {
         button.setAllCaps(false);
         button.setTextSize(18);
         button.setGravity(Gravity.CENTER);
-        button.setPadding(dp(14), 0, dp(14), 0);
-        button.setMinHeight(dp(52));
-        button.setMinimumHeight(dp(52));
+        button.setPadding(dp(18), 0, dp(18), 0);
+        button.setMinHeight(dp(56));
+        button.setMinimumHeight(dp(56));
         button.setMinWidth(0);
         button.setMinimumWidth(0);
         button.setIncludeFontPadding(false);
+        button.setStateListAnimator(null);
         if (primary) {
             button.setTextColor(buttonTextColor(Color.WHITE));
-            button.setBackground(buttonBackground(COLOR_PRIMARY, COLOR_PRIMARY_PRESSED, COLOR_PRIMARY, 8));
-            button.setElevation(dp(2));
+            button.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
+            button.setBackground(buttonBackground(COLOR_PRIMARY, COLOR_PRIMARY_PRESSED, Color.TRANSPARENT, 16));
+            button.setElevation(0);
         } else {
             button.setTextColor(buttonTextColor(COLOR_PRIMARY_DARK));
-            button.setBackground(buttonBackground(COLOR_BUTTON, COLOR_BUTTON_PRESSED, COLOR_BORDER, 8));
-            button.setElevation(dp(1));
+            button.setBackground(buttonBackground(COLOR_BUTTON, COLOR_BUTTON_PRESSED, Color.TRANSPARENT, 16));
+            button.setElevation(0);
         }
         return button;
     }
 
     private void stylePracticeCard(LinearLayout card) {
-        card.setBackground(roundedDrawable(COLOR_SURFACE_SOFT, COLOR_BORDER, 8));
-        card.setElevation(dp(1));
+        card.setBackground(roundedDrawable(COLOR_SURFACE_SOFT, Color.TRANSPARENT, 24));
+        card.setElevation(0);
+    }
+
+    private TextView makeNavTextButton(String text, int gravity) {
+        TextView button = new TextView(this);
+        button.setText(text);
+        button.setTextColor(COLOR_PRIMARY);
+        button.setTextSize(17);
+        button.setGravity(gravity);
+        button.setClickable(true);
+        button.setFocusable(true);
+        button.setIncludeFontPadding(false);
+        button.setBackground(buttonBackground(Color.TRANSPARENT, COLOR_BUTTON_PRESSED, Color.TRANSPARENT, 16));
+        return button;
+    }
+
+    private TextView makeLargeTitle(String text) {
+        TextView title = new TextView(this);
+        title.setText(text);
+        title.setTextColor(COLOR_TEXT);
+        title.setTextSize(34);
+        title.setGravity(Gravity.LEFT);
+        title.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
+        title.setIncludeFontPadding(false);
+        return title;
+    }
+
+    private TextView makeSectionLabel(String text) {
+        TextView label = new TextView(this);
+        label.setText(text);
+        label.setTextColor(COLOR_MUTED);
+        label.setTextSize(13);
+        label.setGravity(Gravity.LEFT);
+        label.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
+        label.setIncludeFontPadding(false);
+        return label;
+    }
+
+    private LinearLayout makeLessonCard(String titleText, String subtitleText, View.OnClickListener click) {
+        LinearLayout card = new LinearLayout(this);
+        card.setOrientation(LinearLayout.HORIZONTAL);
+        card.setGravity(Gravity.CENTER_VERTICAL);
+        card.setPadding(dp(22), dp(22), dp(18), dp(22));
+        card.setClickable(true);
+        card.setFocusable(true);
+        card.setOnClickListener(click);
+        GradientDrawable background = new GradientDrawable(
+                GradientDrawable.Orientation.TL_BR,
+                new int[]{Color.rgb(10, 132, 255), Color.rgb(90, 200, 250)});
+        background.setCornerRadius(dp(24));
+        card.setBackground(background);
+        card.setElevation(0);
+
+        LinearLayout textStack = new LinearLayout(this);
+        textStack.setOrientation(LinearLayout.VERTICAL);
+
+        TextView title = new TextView(this);
+        title.setText(titleText);
+        title.setTextColor(Color.WHITE);
+        title.setTextSize(28);
+        title.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
+        title.setIncludeFontPadding(false);
+        textStack.addView(title, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        TextView subtitle = new TextView(this);
+        subtitle.setText(subtitleText);
+        subtitle.setTextColor(Color.argb(225, 255, 255, 255));
+        subtitle.setTextSize(21);
+        subtitle.setIncludeFontPadding(false);
+        LinearLayout.LayoutParams subtitleLp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        subtitleLp.setMargins(0, dp(10), 0, 0);
+        textStack.addView(subtitle, subtitleLp);
+
+        card.addView(textStack, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+
+        TextView chevron = new TextView(this);
+        chevron.setText("›");
+        chevron.setTextColor(Color.argb(210, 255, 255, 255));
+        chevron.setTextSize(34);
+        chevron.setGravity(Gravity.CENTER);
+        chevron.setIncludeFontPadding(false);
+        card.addView(chevron, new LinearLayout.LayoutParams(dp(24), ViewGroup.LayoutParams.MATCH_PARENT));
+        return card;
+    }
+
+    private LinearLayout makeMenuRow(String titleText, String detailText, boolean enabled, View.OnClickListener click) {
+        LinearLayout row = new LinearLayout(this);
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        row.setGravity(Gravity.CENTER_VERTICAL);
+        row.setPadding(dp(18), dp(14), dp(16), dp(14));
+        row.setMinimumHeight(dp(76));
+        row.setClickable(enabled);
+        row.setFocusable(enabled);
+        row.setEnabled(enabled);
+        row.setAlpha(enabled ? 1f : 0.45f);
+        row.setBackground(buttonBackground(COLOR_SURFACE, COLOR_BUTTON_PRESSED, Color.TRANSPARENT, 20));
+        if (enabled) {
+            row.setOnClickListener(click);
+        }
+
+        LinearLayout textStack = new LinearLayout(this);
+        textStack.setOrientation(LinearLayout.VERTICAL);
+
+        TextView title = new TextView(this);
+        title.setText(titleText);
+        title.setTextColor(COLOR_TEXT);
+        title.setTextSize(21);
+        title.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
+        title.setIncludeFontPadding(false);
+        textStack.addView(title, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        if (detailText != null && !detailText.isEmpty()) {
+            TextView detail = new TextView(this);
+            detail.setText(detailText);
+            detail.setTextColor(COLOR_MUTED);
+            detail.setTextSize(14);
+            detail.setIncludeFontPadding(false);
+            LinearLayout.LayoutParams detailLp = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            detailLp.setMargins(0, dp(6), 0, 0);
+            textStack.addView(detail, detailLp);
+        }
+
+        row.addView(textStack, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+
+        TextView chevron = new TextView(this);
+        chevron.setText("›");
+        chevron.setTextColor(COLOR_TERTIARY);
+        chevron.setTextSize(30);
+        chevron.setGravity(Gravity.CENTER);
+        chevron.setIncludeFontPadding(false);
+        row.addView(chevron, new LinearLayout.LayoutParams(dp(24), ViewGroup.LayoutParams.MATCH_PARENT));
+        return row;
+    }
+
+    private void styleProgressLabel(TextView label) {
+        label.setTextColor(COLOR_MUTED);
+        label.setTextSize(14);
+        label.setGravity(Gravity.CENTER);
+        label.setPadding(dp(14), dp(7), dp(14), dp(7));
+        label.setIncludeFontPadding(false);
+        label.setBackground(roundedDrawable(COLOR_BUTTON, Color.TRANSPARENT, 15));
     }
 
     private ColorStateList buttonTextColor(int enabledColor) {
@@ -641,7 +802,7 @@ public class MainActivity extends Activity {
     private LinearLayout.LayoutParams fullButtonLp(int topMargin) {
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                dp(52));
+                dp(56));
         lp.setMargins(0, topMargin, 0, 0);
         return lp;
     }
@@ -803,17 +964,15 @@ public class MainActivity extends Activity {
 
         TextView progress = new TextView(this);
         progress.setText(sentenceProgressText());
-        progress.setTextColor(COLOR_MUTED);
-        progress.setTextSize(15);
-        progress.setGravity(Gravity.CENTER);
+        styleProgressLabel(progress);
         body.addView(progress, new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
 
         LinearLayout card = new LinearLayout(this);
         card.setOrientation(LinearLayout.VERTICAL);
         card.setGravity(Gravity.CENTER);
-        card.setPadding(dp(18), dp(24), dp(18), dp(24));
+        card.setPadding(dp(24), dp(28), dp(24), dp(28));
         stylePracticeCard(card);
         LinearLayout.LayoutParams cardLp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -873,11 +1032,11 @@ public class MainActivity extends Activity {
 
             Button mastered = makePrimaryButton("会了");
             mastered.setOnClickListener(v -> completeCurrentSentence(true));
-            row.addView(mastered, new LinearLayout.LayoutParams(0, dp(52), 1));
+            row.addView(mastered, new LinearLayout.LayoutParams(0, dp(56), 1));
 
             Button retry = makeButton("再练一次");
             retry.setOnClickListener(v -> completeCurrentSentence(false));
-            LinearLayout.LayoutParams retryLp = new LinearLayout.LayoutParams(0, dp(52), 1);
+            LinearLayout.LayoutParams retryLp = new LinearLayout.LayoutParams(0, dp(56), 1);
             retryLp.setMargins(dp(10), 0, 0, 0);
             row.addView(retry, retryLp);
             LinearLayout.LayoutParams rowLp = new LinearLayout.LayoutParams(
@@ -1034,17 +1193,15 @@ public class MainActivity extends Activity {
 
         TextView progress = new TextView(this);
         progress.setText(transferProgressText());
-        progress.setTextColor(COLOR_MUTED);
-        progress.setTextSize(15);
-        progress.setGravity(Gravity.CENTER);
+        styleProgressLabel(progress);
         body.addView(progress, new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
 
         LinearLayout card = new LinearLayout(this);
         card.setOrientation(LinearLayout.VERTICAL);
         card.setGravity(Gravity.CENTER);
-        card.setPadding(dp(18), dp(24), dp(18), dp(24));
+        card.setPadding(dp(24), dp(28), dp(24), dp(28));
         stylePracticeCard(card);
         LinearLayout.LayoutParams cardLp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -1101,11 +1258,11 @@ public class MainActivity extends Activity {
 
             Button mastered = makePrimaryButton("会了");
             mastered.setOnClickListener(v -> completeCurrentTransfer(true));
-            row.addView(mastered, new LinearLayout.LayoutParams(0, dp(52), 1));
+            row.addView(mastered, new LinearLayout.LayoutParams(0, dp(56), 1));
 
             Button retry = makeButton("再练一次");
             retry.setOnClickListener(v -> completeCurrentTransfer(false));
-            LinearLayout.LayoutParams retryLp = new LinearLayout.LayoutParams(0, dp(52), 1);
+            LinearLayout.LayoutParams retryLp = new LinearLayout.LayoutParams(0, dp(56), 1);
             retryLp.setMargins(dp(10), 0, 0, 0);
             row.addView(retry, retryLp);
             LinearLayout.LayoutParams rowLp = new LinearLayout.LayoutParams(
@@ -1226,17 +1383,17 @@ public class MainActivity extends Activity {
         LinearLayout controls = new LinearLayout(this);
         controls.setOrientation(LinearLayout.HORIZONTAL);
         controls.setGravity(Gravity.CENTER);
-        controls.setPadding(dp(10), dp(8), dp(10), dp(10));
+        controls.setPadding(dp(16), dp(12), dp(16), dp(14));
         controls.setBackgroundColor(COLOR_TOP_BAR);
 
         Button playAll = makePrimaryButton("顺序播放");
         playAll.setOnClickListener(v -> startSequence());
-        controls.addView(playAll, new LinearLayout.LayoutParams(0, dp(52), 1));
+        controls.addView(playAll, new LinearLayout.LayoutParams(0, dp(56), 1));
 
         Button stop = makeButton("停止");
         stop.setOnClickListener(v -> stopPlayback());
-        LinearLayout.LayoutParams stopLp = new LinearLayout.LayoutParams(0, dp(52), 1);
-        stopLp.setMargins(dp(10), 0, 0, 0);
+        LinearLayout.LayoutParams stopLp = new LinearLayout.LayoutParams(0, dp(56), 1);
+        stopLp.setMargins(dp(12), 0, 0, 0);
         controls.addView(stop, stopLp);
 
         root.addView(controls, new LinearLayout.LayoutParams(
@@ -1642,13 +1799,18 @@ public class MainActivity extends Activity {
                 int itemIndex = cardIndexes.get(i);
                 RectF card = cardRects.get(i);
                 Rect source = sourceRegion(lesson.items.get(itemIndex).region);
+                float radius = dp(20);
 
                 cardPaint.setStyle(Paint.Style.FILL);
                 cardPaint.setColor(Color.WHITE);
-                canvas.drawRoundRect(card, dp(8), dp(8), cardPaint);
+                canvas.drawRoundRect(card, radius, radius, cardPaint);
 
                 RectF caption = captionRect(card);
                 RectF image = imageRect(card, caption);
+                Path clip = new Path();
+                clip.addRoundRect(card, radius, radius, Path.Direction.CW);
+                canvas.save();
+                canvas.clipPath(clip);
                 canvas.drawBitmap(lesson.bitmap, source, image, bitmapPaint);
 
                 cardPaint.setStyle(Paint.Style.FILL);
@@ -1656,22 +1818,23 @@ public class MainActivity extends Activity {
                 canvas.drawRect(caption, cardPaint);
                 cardPaint.setStyle(Paint.Style.STROKE);
                 cardPaint.setStrokeWidth(dp(1));
-                cardPaint.setColor(Color.rgb(224, 229, 235));
+                cardPaint.setColor(COLOR_BORDER);
                 canvas.drawLine(caption.left, caption.top, caption.right, caption.top, cardPaint);
+                canvas.restore();
 
                 cardPaint.setStyle(Paint.Style.STROKE);
                 cardPaint.setStrokeWidth(dp(1));
-                cardPaint.setColor(Color.rgb(196, 205, 214));
-                canvas.drawRoundRect(card, dp(8), dp(8), cardPaint);
+                cardPaint.setColor(COLOR_BORDER);
+                canvas.drawRoundRect(card, radius, radius, cardPaint);
 
                 if (itemIndex == activeIndex) {
                     overlayPaint.setStyle(Paint.Style.FILL);
-                    overlayPaint.setColor(Color.argb(42, 255, 213, 79));
-                    canvas.drawRoundRect(card, dp(8), dp(8), overlayPaint);
+                    overlayPaint.setColor(Color.argb(28, 0, 122, 255));
+                    canvas.drawRoundRect(card, radius, radius, overlayPaint);
                     overlayPaint.setStyle(Paint.Style.STROKE);
-                    overlayPaint.setStrokeWidth(dp(4));
-                    overlayPaint.setColor(Color.rgb(255, 179, 0));
-                    canvas.drawRoundRect(card, dp(8), dp(8), overlayPaint);
+                    overlayPaint.setStrokeWidth(dp(3));
+                    overlayPaint.setColor(COLOR_PRIMARY);
+                    canvas.drawRoundRect(card, radius, radius, overlayPaint);
                 }
                 drawSentence(canvas, lesson.items.get(itemIndex).text, caption);
             }
@@ -1745,9 +1908,9 @@ public class MainActivity extends Activity {
 
             int columns = columnCount(viewWidth);
             int rows = (int) Math.ceil(visibleCount / (float) columns);
-            float padding = dp(8);
-            float gap = dp(8);
-            float dotsHeight = dp(28);
+            float padding = dp(16);
+            float gap = dp(14);
+            float dotsHeight = dp(36);
             float cardWidth = (viewWidth - padding * 2f - gap * (columns - 1)) / columns;
             float naturalImageHeight = cardWidth / averageItemAspectRatio();
             float naturalCaptionHeight = Math.max(dp(60), naturalImageHeight * 0.28f);
