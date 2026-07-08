@@ -1,0 +1,324 @@
+{
+  "id": "lesson2",
+  "title": "Lesson 2",
+  "subtitle": "Is this / Is that / Are these / Are those",
+  "image": "lessons/lesson2/desk_table_phone_portrait_v1.jpg",
+  "words": [
+    {
+      "english": "is",
+      "chinese": "是",
+      "english_audio": "lessons/lesson2/words/audio/is_en.mp3",
+      "chinese_audio": "lessons/lesson2/words/audio/is_zh.mp3"
+    },
+    {
+      "english": "are",
+      "chinese": "是（复数）",
+      "english_audio": "lessons/lesson2/words/audio/are_en.mp3",
+      "chinese_audio": "lessons/lesson2/words/audio/are_zh.mp3"
+    },
+    {
+      "english": "yes",
+      "chinese": "是的",
+      "english_audio": "lessons/lesson2/words/audio/yes_en.mp3",
+      "chinese_audio": "lessons/lesson2/words/audio/yes_zh.mp3"
+    },
+    {
+      "english": "no",
+      "chinese": "不",
+      "english_audio": "lessons/lesson2/words/audio/no_en.mp3",
+      "chinese_audio": "lessons/lesson2/words/audio/no_zh.mp3"
+    },
+    {
+      "english": "it",
+      "chinese": "它",
+      "english_audio": "lessons/lesson2/words/audio/it_en.mp3",
+      "chinese_audio": "lessons/lesson2/words/audio/it_zh.mp3"
+    },
+    {
+      "english": "they",
+      "chinese": "它们",
+      "english_audio": "lessons/lesson2/words/audio/they_en.mp3",
+      "chinese_audio": "lessons/lesson2/words/audio/they_zh.mp3"
+    }
+  ],
+  "items": [
+    {
+      "text": "Is this a desk? Yes, it is.",
+      "chinese": "这是一张课桌吗？是的，它是。",
+      "audio": "lessons/lesson2/audio/01.mp3",
+      "chinese_audio": "lessons/lesson2/audio/01_zh.mp3",
+      "region": [
+        0.0,
+        0.0,
+        1.0,
+        0.125
+      ]
+    },
+    {
+      "text": "Is that a table? Yes, it is.",
+      "chinese": "那是一张桌子吗？是的，它是。",
+      "audio": "lessons/lesson2/audio/02.mp3",
+      "chinese_audio": "lessons/lesson2/audio/02_zh.mp3",
+      "region": [
+        0.0,
+        0.125,
+        1.0,
+        0.125
+      ]
+    },
+    {
+      "text": "Are these desks? Yes, they are.",
+      "chinese": "这些是课桌吗？是的，它们是。",
+      "audio": "lessons/lesson2/audio/03.mp3",
+      "chinese_audio": "lessons/lesson2/audio/03_zh.mp3",
+      "region": [
+        0.0,
+        0.25,
+        1.0,
+        0.125
+      ]
+    },
+    {
+      "text": "Are those tables? Yes, they are.",
+      "chinese": "那些是桌子吗？是的，它们是。",
+      "audio": "lessons/lesson2/audio/04.mp3",
+      "chinese_audio": "lessons/lesson2/audio/04_zh.mp3",
+      "region": [
+        0.0,
+        0.375,
+        1.0,
+        0.125
+      ]
+    },
+    {
+      "text": "Is this a table? No, it isn't. It's a desk.",
+      "chinese": "这是一张桌子吗？不，它不是。它是一张课桌。",
+      "audio": "lessons/lesson2/audio/05.mp3",
+      "chinese_audio": "lessons/lesson2/audio/05_zh.mp3",
+      "region": [
+        0.0,
+        0.5,
+        1.0,
+        0.125
+      ]
+    },
+    {
+      "text": "Is that a desk? No, it isn't. It's a table.",
+      "chinese": "那是一张课桌吗？不，它不是。它是一张桌子。",
+      "audio": "lessons/lesson2/audio/06.mp3",
+      "chinese_audio": "lessons/lesson2/audio/06_zh.mp3",
+      "region": [
+        0.0,
+        0.625,
+        1.0,
+        0.125
+      ]
+    },
+    {
+      "text": "Are these tables? No, they aren't. They're desks.",
+      "chinese": "这些是桌子吗？不，它们不是。它们是课桌。",
+      "audio": "lessons/lesson2/audio/07.mp3",
+      "chinese_audio": "lessons/lesson2/audio/07_zh.mp3",
+      "region": [
+        0.0,
+        0.75,
+        1.0,
+        0.125
+      ]
+    },
+    {
+      "text": "Are those desks? No, they aren't. They're tables.",
+      "chinese": "那些是课桌吗？不，它们不是。它们是桌子。",
+      "audio": "lessons/lesson2/audio/08.mp3",
+      "chinese_audio": "lessons/lesson2/audio/08_zh.mp3",
+      "region": [
+        0.0,
+        0.875,
+        1.0,
+        0.125
+      ]
+    }
+  ],
+  "transfer_practice": [
+    {
+      "text": "Is this an apple? Yes, it is.",
+      "chinese": "这是一个苹果吗？是的，它是。",
+      "audio": "lessons/lesson2/transfer/audio/01_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/01_zh.mp3"
+    },
+    {
+      "text": "Is that an orange? Yes, it is.",
+      "chinese": "那是一个橙子吗？是的，它是。",
+      "audio": "lessons/lesson2/transfer/audio/02_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/02_zh.mp3"
+    },
+    {
+      "text": "Is this a book? Yes, it is.",
+      "chinese": "这是一本书吗？是的，它是。",
+      "audio": "lessons/lesson2/transfer/audio/03_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/03_zh.mp3"
+    },
+    {
+      "text": "Is that a pencil? Yes, it is.",
+      "chinese": "那是一支铅笔吗？是的，它是。",
+      "audio": "lessons/lesson2/transfer/audio/04_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/04_zh.mp3"
+    },
+    {
+      "text": "Is this a ruler? Yes, it is.",
+      "chinese": "这是一把尺子吗？是的，它是。",
+      "audio": "lessons/lesson2/transfer/audio/05_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/05_zh.mp3"
+    },
+    {
+      "text": "Is that a bag? Yes, it is.",
+      "chinese": "那是一个书包吗？是的，它是。",
+      "audio": "lessons/lesson2/transfer/audio/06_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/06_zh.mp3"
+    },
+    {
+      "text": "Is this a table? No, it isn't. It's a chair.",
+      "chinese": "这是一张桌子吗？不，它不是。它是一把椅子。",
+      "audio": "lessons/lesson2/transfer/audio/07_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/07_zh.mp3"
+    },
+    {
+      "text": "Is that a desk? No, it isn't. It's a bed.",
+      "chinese": "那是一张课桌吗？不，它不是。它是一张床。",
+      "audio": "lessons/lesson2/transfer/audio/08_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/08_zh.mp3"
+    },
+    {
+      "text": "Is this an apple? No, it isn't. It's an orange.",
+      "chinese": "这是一个苹果吗？不，它不是。它是一个橙子。",
+      "audio": "lessons/lesson2/transfer/audio/09_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/09_zh.mp3"
+    },
+    {
+      "text": "Is that a book? No, it isn't. It's a pencil.",
+      "chinese": "那是一本书吗？不，它不是。它是一支铅笔。",
+      "audio": "lessons/lesson2/transfer/audio/10_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/10_zh.mp3"
+    },
+    {
+      "text": "Are these apples? Yes, they are.",
+      "chinese": "这些是苹果吗？是的，它们是。",
+      "audio": "lessons/lesson2/transfer/audio/11_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/11_zh.mp3"
+    },
+    {
+      "text": "Are those oranges? Yes, they are.",
+      "chinese": "那些是橙子吗？是的，它们是。",
+      "audio": "lessons/lesson2/transfer/audio/12_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/12_zh.mp3"
+    },
+    {
+      "text": "Are these books? Yes, they are.",
+      "chinese": "这些是书吗？是的，它们是。",
+      "audio": "lessons/lesson2/transfer/audio/13_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/13_zh.mp3"
+    },
+    {
+      "text": "Are those pencils? Yes, they are.",
+      "chinese": "那些是铅笔吗？是的，它们是。",
+      "audio": "lessons/lesson2/transfer/audio/14_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/14_zh.mp3"
+    },
+    {
+      "text": "Are these rulers? Yes, they are.",
+      "chinese": "这些是尺子吗？是的，它们是。",
+      "audio": "lessons/lesson2/transfer/audio/15_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/15_zh.mp3"
+    },
+    {
+      "text": "Are those bags? Yes, they are.",
+      "chinese": "那些是书包吗？是的，它们是。",
+      "audio": "lessons/lesson2/transfer/audio/16_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/16_zh.mp3"
+    },
+    {
+      "text": "Are these tables? No, they aren't. They're chairs.",
+      "chinese": "这些是桌子吗？不，它们不是。它们是椅子。",
+      "audio": "lessons/lesson2/transfer/audio/17_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/17_zh.mp3"
+    },
+    {
+      "text": "Are those desks? No, they aren't. They're beds.",
+      "chinese": "那些是课桌吗？不，它们不是。它们是床。",
+      "audio": "lessons/lesson2/transfer/audio/18_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/18_zh.mp3"
+    },
+    {
+      "text": "Are these apples? No, they aren't. They're oranges.",
+      "chinese": "这些是苹果吗？不，它们不是。它们是橙子。",
+      "audio": "lessons/lesson2/transfer/audio/19_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/19_zh.mp3"
+    },
+    {
+      "text": "Are those books? No, they aren't. They're pencils.",
+      "chinese": "那些是书吗？不，它们不是。它们是铅笔。",
+      "audio": "lessons/lesson2/transfer/audio/20_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/20_zh.mp3"
+    },
+    {
+      "text": "Is this an egg? Yes, it is.",
+      "chinese": "这是一个鸡蛋吗？是的，它是。",
+      "audio": "lessons/lesson2/transfer/audio/21_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/21_zh.mp3"
+    },
+    {
+      "text": "Is that an umbrella? Yes, it is.",
+      "chinese": "那是一把伞吗？是的，它是。",
+      "audio": "lessons/lesson2/transfer/audio/22_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/22_zh.mp3"
+    },
+    {
+      "text": "Are these eggs? Yes, they are.",
+      "chinese": "这些是鸡蛋吗？是的，它们是。",
+      "audio": "lessons/lesson2/transfer/audio/23_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/23_zh.mp3"
+    },
+    {
+      "text": "Are those umbrellas? Yes, they are.",
+      "chinese": "那些是伞吗？是的，它们是。",
+      "audio": "lessons/lesson2/transfer/audio/24_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/24_zh.mp3"
+    },
+    {
+      "text": "Is that an orange? No, it isn't. It's an apple.",
+      "chinese": "那是一个橙子吗？不，它不是。它是一个苹果。",
+      "audio": "lessons/lesson2/transfer/audio/25_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/25_zh.mp3"
+    },
+    {
+      "text": "Is that a pencil? No, it isn't. It's a ruler.",
+      "chinese": "那是一支铅笔吗？不，它不是。它是一把尺子。",
+      "audio": "lessons/lesson2/transfer/audio/26_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/26_zh.mp3"
+    },
+    {
+      "text": "Is that a bag? No, it isn't. It's a book.",
+      "chinese": "那是一个书包吗？不，它不是。它是一本书。",
+      "audio": "lessons/lesson2/transfer/audio/27_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/27_zh.mp3"
+    },
+    {
+      "text": "Is that a desk? No, it isn't. It's a bed.",
+      "chinese": "那是一张课桌吗？不，它不是。它是一张床。",
+      "audio": "lessons/lesson2/transfer/audio/28_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/28_zh.mp3"
+    },
+    {
+      "text": "Is this a pencil? No, it isn't. It's a book.",
+      "chinese": "这是一支铅笔吗？不，它不是。它是一本书。",
+      "audio": "lessons/lesson2/transfer/audio/29_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/29_zh.mp3"
+    },
+    {
+      "text": "Is that an umbrella? No, it isn't. It's a bag.",
+      "chinese": "那是一把伞吗？不，它不是。它是一个书包。",
+      "audio": "lessons/lesson2/transfer/audio/30_en.mp3",
+      "chinese_audio": "lessons/lesson2/transfer/audio/30_zh.mp3"
+    }
+  ]
+}

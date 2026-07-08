@@ -5,6 +5,12 @@
       "title": "Lesson 1",
       "subtitle": "This / That / These / Those",
       "manifest": "lessons/lesson1/lesson.json"
+    },
+    {
+      "id": "lesson2",
+      "title": "Lesson 2",
+      "subtitle": "Is this / Is that / Are these / Are those",
+      "manifest": "lessons/lesson2/lesson.json"
     }
   ]
 }
