@@ -3,6 +3,7 @@ package com.zhaolq.englishreader;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +12,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -80,10 +83,28 @@ public class MainActivity extends Activity {
     private static final String RELEASE_API_URL =
             "https://api.github.com/repos/zhaohongxin0/english-reader-android/releases/latest";
     private static final String APK_MIME_TYPE = "application/vnd.android.package-archive";
+    private static final int COLOR_PAGE = Color.rgb(247, 250, 253);
+    private static final int COLOR_TOP_BAR = Color.rgb(239, 246, 255);
+    private static final int COLOR_SURFACE = Color.WHITE;
+    private static final int COLOR_SURFACE_SOFT = Color.rgb(250, 253, 255);
+    private static final int COLOR_TEXT = Color.rgb(24, 38, 58);
+    private static final int COLOR_MUTED = Color.rgb(92, 108, 126);
+    private static final int COLOR_PRIMARY = Color.rgb(20, 112, 214);
+    private static final int COLOR_PRIMARY_DARK = Color.rgb(12, 83, 164);
+    private static final int COLOR_PRIMARY_PRESSED = Color.rgb(8, 74, 148);
+    private static final int COLOR_BUTTON = Color.rgb(255, 255, 255);
+    private static final int COLOR_BUTTON_PRESSED = Color.rgb(229, 241, 255);
+    private static final int COLOR_BORDER = Color.rgb(204, 219, 235);
+    private static final int COLOR_DISABLED = Color.rgb(231, 236, 242);
+    private static final int COLOR_DISABLED_TEXT = Color.rgb(140, 151, 164);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setStatusBarColor(COLOR_TOP_BAR);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
         showLessonList();
     }
@@ -114,11 +135,11 @@ public class MainActivity extends Activity {
             container.setOrientation(LinearLayout.VERTICAL);
             container.setGravity(Gravity.CENTER_HORIZONTAL);
             container.setPadding(dp(20), dp(28), dp(20), dp(20));
-            container.setBackgroundColor(Color.rgb(247, 249, 252));
+            container.setBackgroundColor(COLOR_PAGE);
 
             TextView title = new TextView(this);
             title.setText("English Reader");
-            title.setTextColor(Color.rgb(29, 43, 64));
+            title.setTextColor(COLOR_TEXT);
             title.setTextSize(26);
             title.setGravity(Gravity.CENTER);
             title.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
@@ -128,12 +149,10 @@ public class MainActivity extends Activity {
 
             for (int i = 0; i < lessons.length(); i++) {
                 JSONObject item = lessons.getJSONObject(i);
-                Button button = new Button(this);
                 String label = item.getString("title") + "\n" + item.optString("subtitle");
-                button.setText(label);
-                button.setAllCaps(false);
+                Button button = makePrimaryButton(label);
                 button.setTextSize(18);
-                button.setMinHeight(dp(76));
+                button.setMinHeight(dp(78));
                 button.setOnClickListener(v -> {
                     try {
                         showLessonModeChoice(loadLesson(item.getString("manifest")));
@@ -150,7 +169,7 @@ public class MainActivity extends Activity {
 
             TextView version = new TextView(this);
             version.setText("当前版本 v" + BuildConfig.VERSION_NAME);
-            version.setTextColor(Color.rgb(93, 109, 126));
+            version.setTextColor(COLOR_MUTED);
             version.setTextSize(14);
             version.setGravity(Gravity.CENTER);
             LinearLayout.LayoutParams versionLp = new LinearLayout.LayoutParams(
@@ -159,9 +178,7 @@ public class MainActivity extends Activity {
             versionLp.setMargins(0, dp(22), 0, 0);
             container.addView(version, versionLp);
 
-            Button update = new Button(this);
-            update.setText("检查更新");
-            update.setAllCaps(false);
+            Button update = makeButton("检查更新");
             update.setTextSize(16);
             update.setOnClickListener(v -> checkForUpdates());
             LinearLayout.LayoutParams updateLp = new LinearLayout.LayoutParams(
@@ -183,28 +200,8 @@ public class MainActivity extends Activity {
 
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
-        root.setBackgroundColor(Color.rgb(247, 249, 252));
-
-        LinearLayout top = new LinearLayout(this);
-        top.setOrientation(LinearLayout.HORIZONTAL);
-        top.setGravity(Gravity.CENTER_VERTICAL);
-        top.setPadding(dp(8), dp(6), dp(8), dp(6));
-        top.setBackgroundColor(Color.rgb(244, 247, 251));
-
-        Button back = new Button(this);
-        back.setText("Back");
-        back.setAllCaps(false);
-        back.setOnClickListener(v -> showLessonList());
-        top.addView(back, new LinearLayout.LayoutParams(dp(86), dp(48)));
-
-        TextView header = new TextView(this);
-        header.setText(lesson.title);
-        header.setTextColor(Color.rgb(24, 38, 58));
-        header.setTextSize(18);
-        header.setGravity(Gravity.CENTER);
-        header.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
-        top.addView(header, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
-        root.addView(top, new LinearLayout.LayoutParams(
+        root.setBackgroundColor(COLOR_PAGE);
+        root.addView(makeTopBar(lesson.title, v -> showLessonList()), new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
 
@@ -215,7 +212,7 @@ public class MainActivity extends Activity {
 
         TextView title = new TextView(this);
         title.setText(lesson.subtitle);
-        title.setTextColor(Color.rgb(29, 43, 64));
+        title.setTextColor(COLOR_TEXT);
         title.setTextSize(24);
         title.setGravity(Gravity.CENTER);
         title.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
@@ -225,7 +222,7 @@ public class MainActivity extends Activity {
 
         TextView prompt = new TextView(this);
         prompt.setText("选择练习内容");
-        prompt.setTextColor(Color.rgb(93, 109, 126));
+        prompt.setTextColor(COLOR_MUTED);
         prompt.setTextSize(16);
         prompt.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams promptLp = new LinearLayout.LayoutParams(
@@ -259,28 +256,8 @@ public class MainActivity extends Activity {
 
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
-        root.setBackgroundColor(Color.rgb(247, 249, 252));
-
-        LinearLayout top = new LinearLayout(this);
-        top.setOrientation(LinearLayout.HORIZONTAL);
-        top.setGravity(Gravity.CENTER_VERTICAL);
-        top.setPadding(dp(8), dp(6), dp(8), dp(6));
-        top.setBackgroundColor(Color.rgb(244, 247, 251));
-
-        Button back = new Button(this);
-        back.setText("Back");
-        back.setAllCaps(false);
-        back.setOnClickListener(v -> showLessonModeChoice(lesson));
-        top.addView(back, new LinearLayout.LayoutParams(dp(86), dp(48)));
-
-        TextView header = new TextView(this);
-        header.setText("句子练习");
-        header.setTextColor(Color.rgb(24, 38, 58));
-        header.setTextSize(18);
-        header.setGravity(Gravity.CENTER);
-        header.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
-        top.addView(header, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
-        root.addView(top, new LinearLayout.LayoutParams(
+        root.setBackgroundColor(COLOR_PAGE);
+        root.addView(makeTopBar("句子练习", v -> showLessonModeChoice(lesson)), new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
 
@@ -291,7 +268,7 @@ public class MainActivity extends Activity {
 
         TextView title = new TextView(this);
         title.setText(lesson.subtitle);
-        title.setTextColor(Color.rgb(29, 43, 64));
+        title.setTextColor(COLOR_TEXT);
         title.setTextSize(24);
         title.setGravity(Gravity.CENTER);
         title.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
@@ -301,7 +278,7 @@ public class MainActivity extends Activity {
 
         TextView prompt = new TextView(this);
         prompt.setText("选择句子练习方式");
-        prompt.setTextColor(Color.rgb(93, 109, 126));
+        prompt.setTextColor(COLOR_MUTED);
         prompt.setTextSize(16);
         prompt.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams promptLp = new LinearLayout.LayoutParams(
@@ -429,28 +406,8 @@ public class MainActivity extends Activity {
 
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
-        root.setBackgroundColor(Color.WHITE);
-
-        LinearLayout top = new LinearLayout(this);
-        top.setOrientation(LinearLayout.HORIZONTAL);
-        top.setGravity(Gravity.CENTER_VERTICAL);
-        top.setPadding(dp(8), dp(6), dp(8), dp(6));
-        top.setBackgroundColor(Color.rgb(244, 247, 251));
-
-        Button back = new Button(this);
-        back.setText("Back");
-        back.setAllCaps(false);
-        back.setOnClickListener(v -> showLessonModeChoice(currentLesson));
-        top.addView(back, new LinearLayout.LayoutParams(dp(86), dp(48)));
-
-        TextView title = new TextView(this);
-        title.setText(wordStageTitle());
-        title.setTextColor(Color.rgb(24, 38, 58));
-        title.setTextSize(17);
-        title.setGravity(Gravity.CENTER);
-        title.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
-        top.addView(title, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
-        root.addView(top, new LinearLayout.LayoutParams(
+        root.setBackgroundColor(COLOR_PAGE);
+        root.addView(makeTopBar(wordStageTitle(), v -> showLessonModeChoice(currentLesson)), new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
 
@@ -461,7 +418,7 @@ public class MainActivity extends Activity {
 
         TextView progress = new TextView(this);
         progress.setText(wordProgressText());
-        progress.setTextColor(Color.rgb(93, 109, 126));
+        progress.setTextColor(COLOR_MUTED);
         progress.setTextSize(15);
         progress.setGravity(Gravity.CENTER);
         body.addView(progress, new LinearLayout.LayoutParams(
@@ -472,7 +429,7 @@ public class MainActivity extends Activity {
         card.setOrientation(LinearLayout.VERTICAL);
         card.setGravity(Gravity.CENTER);
         card.setPadding(dp(18), dp(24), dp(18), dp(24));
-        card.setBackgroundColor(Color.rgb(250, 252, 255));
+        stylePracticeCard(card);
         LinearLayout.LayoutParams cardLp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 0,
@@ -481,7 +438,7 @@ public class MainActivity extends Activity {
 
         TextView prompt = new TextView(this);
         prompt.setText(wordPromptText(word));
-        prompt.setTextColor(Color.rgb(20, 36, 56));
+        prompt.setTextColor(COLOR_TEXT);
         prompt.setTextSize(wordStage == WORD_STAGE_FOLLOW ? 42 : 36);
         prompt.setGravity(Gravity.CENTER);
         prompt.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
@@ -491,7 +448,7 @@ public class MainActivity extends Activity {
 
         TextView answer = new TextView(this);
         answer.setText(wordAnswerText(word));
-        answer.setTextColor(Color.rgb(13, 103, 196));
+        answer.setTextColor(COLOR_PRIMARY);
         answer.setTextSize(28);
         answer.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams answerLp = new LinearLayout.LayoutParams(
@@ -510,7 +467,7 @@ public class MainActivity extends Activity {
             listen.setOnClickListener(v -> playAsset(word.englishAudioPath, null));
             controls.addView(listen, fullButtonLp(0));
 
-            Button next = makeButton(wordPosition == wordQueue.size() - 1 ? "开始练习" : "下一个");
+            Button next = makePrimaryButton(wordPosition == wordQueue.size() - 1 ? "开始练习" : "下一个");
             next.setOnClickListener(v -> nextFollowWord());
             controls.addView(next, fullButtonLp(dp(10)));
         } else if (!wordAnswerShown) {
@@ -518,7 +475,7 @@ public class MainActivity extends Activity {
             repeat.setOnClickListener(v -> playWordPrompt(word));
             controls.addView(repeat, fullButtonLp(0));
 
-            Button show = makeButton("查看答案");
+            Button show = makePrimaryButton("查看答案");
             show.setOnClickListener(v -> {
                 wordAnswerShown = true;
                 showWordPractice(false);
@@ -526,7 +483,7 @@ public class MainActivity extends Activity {
             });
             controls.addView(show, fullButtonLp(dp(10)));
         } else {
-            Button listenAgain = makeButton("再听一遍");
+            Button listenAgain = makePrimaryButton("再听一遍");
             listenAgain.setOnClickListener(v -> playWordAnswer(word));
             controls.addView(listenAgain, fullButtonLp(0));
 
@@ -534,7 +491,7 @@ public class MainActivity extends Activity {
             row.setOrientation(LinearLayout.HORIZONTAL);
             row.setGravity(Gravity.CENTER);
 
-            Button mastered = makeButton("会了");
+            Button mastered = makePrimaryButton("会了");
             mastered.setOnClickListener(v -> completeCurrentWord(true));
             row.addView(mastered, new LinearLayout.LayoutParams(0, dp(52), 1));
 
@@ -568,12 +525,117 @@ public class MainActivity extends Activity {
         }
     }
 
+    private LinearLayout makeTopBar(String titleText, View.OnClickListener backClick) {
+        LinearLayout top = new LinearLayout(this);
+        top.setOrientation(LinearLayout.HORIZONTAL);
+        top.setGravity(Gravity.CENTER_VERTICAL);
+        top.setPadding(dp(10), dp(8), dp(10), dp(8));
+        top.setBackgroundColor(COLOR_TOP_BAR);
+
+        Button back = makeToolbarButton("返回");
+        back.setOnClickListener(backClick);
+        top.addView(back, new LinearLayout.LayoutParams(dp(72), dp(44)));
+
+        TextView header = new TextView(this);
+        header.setText(titleText);
+        header.setTextColor(COLOR_TEXT);
+        header.setTextSize(17);
+        header.setGravity(Gravity.CENTER);
+        header.setMaxLines(2);
+        header.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
+        LinearLayout.LayoutParams headerLp = new LinearLayout.LayoutParams(
+                0,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                1);
+        headerLp.setMargins(dp(8), 0, dp(8), 0);
+        top.addView(header, headerLp);
+
+        Button home = makeToolbarButton("首页");
+        home.setOnClickListener(v -> showLessonList());
+        top.addView(home, new LinearLayout.LayoutParams(dp(72), dp(44)));
+        return top;
+    }
+
+    private Button makePrimaryButton(String text) {
+        return makeButton(text, true);
+    }
+
     private Button makeButton(String text) {
+        return makeButton(text, false);
+    }
+
+    private Button makeToolbarButton(String text) {
+        Button button = makeButton(text, false);
+        button.setTextSize(15);
+        button.setMinHeight(dp(44));
+        button.setMinimumHeight(dp(44));
+        button.setBackground(buttonBackground(COLOR_SURFACE, COLOR_BUTTON_PRESSED, COLOR_BORDER, 8));
+        button.setElevation(0);
+        return button;
+    }
+
+    private Button makeButton(String text, boolean primary) {
         Button button = new Button(this);
         button.setText(text);
         button.setAllCaps(false);
         button.setTextSize(18);
+        button.setGravity(Gravity.CENTER);
+        button.setPadding(dp(14), 0, dp(14), 0);
+        button.setMinHeight(dp(52));
+        button.setMinimumHeight(dp(52));
+        button.setMinWidth(0);
+        button.setMinimumWidth(0);
+        button.setIncludeFontPadding(false);
+        if (primary) {
+            button.setTextColor(buttonTextColor(Color.WHITE));
+            button.setBackground(buttonBackground(COLOR_PRIMARY, COLOR_PRIMARY_PRESSED, COLOR_PRIMARY, 8));
+            button.setElevation(dp(2));
+        } else {
+            button.setTextColor(buttonTextColor(COLOR_PRIMARY_DARK));
+            button.setBackground(buttonBackground(COLOR_BUTTON, COLOR_BUTTON_PRESSED, COLOR_BORDER, 8));
+            button.setElevation(dp(1));
+        }
         return button;
+    }
+
+    private void stylePracticeCard(LinearLayout card) {
+        card.setBackground(roundedDrawable(COLOR_SURFACE_SOFT, COLOR_BORDER, 8));
+        card.setElevation(dp(1));
+    }
+
+    private ColorStateList buttonTextColor(int enabledColor) {
+        return new ColorStateList(
+                new int[][]{
+                        new int[]{-android.R.attr.state_enabled},
+                        new int[]{}
+                },
+                new int[]{
+                        COLOR_DISABLED_TEXT,
+                        enabledColor
+                });
+    }
+
+    private StateListDrawable buttonBackground(int normalColor, int pressedColor, int strokeColor, float radiusDp) {
+        StateListDrawable background = new StateListDrawable();
+        background.addState(
+                new int[]{-android.R.attr.state_enabled},
+                roundedDrawable(COLOR_DISABLED, COLOR_BORDER, radiusDp));
+        background.addState(
+                new int[]{android.R.attr.state_pressed},
+                roundedDrawable(pressedColor, strokeColor, radiusDp));
+        background.addState(
+                new int[]{},
+                roundedDrawable(normalColor, strokeColor, radiusDp));
+        return background;
+    }
+
+    private GradientDrawable roundedDrawable(int fillColor, int strokeColor, float radiusDp) {
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setShape(GradientDrawable.RECTANGLE);
+        drawable.setColor(fillColor);
+        drawable.setCornerRadius(dp(radiusDp));
+        drawable.setStroke(dp(1), strokeColor);
+        return drawable;
     }
 
     private LinearLayout.LayoutParams fullButtonLp(int topMargin) {
@@ -729,28 +791,8 @@ public class MainActivity extends Activity {
 
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
-        root.setBackgroundColor(Color.WHITE);
-
-        LinearLayout top = new LinearLayout(this);
-        top.setOrientation(LinearLayout.HORIZONTAL);
-        top.setGravity(Gravity.CENTER_VERTICAL);
-        top.setPadding(dp(8), dp(6), dp(8), dp(6));
-        top.setBackgroundColor(Color.rgb(244, 247, 251));
-
-        Button back = new Button(this);
-        back.setText("Back");
-        back.setAllCaps(false);
-        back.setOnClickListener(v -> showSentencePracticeChoice(currentLesson));
-        top.addView(back, new LinearLayout.LayoutParams(dp(86), dp(48)));
-
-        TextView title = new TextView(this);
-        title.setText(sentenceStageTitle());
-        title.setTextColor(Color.rgb(24, 38, 58));
-        title.setTextSize(17);
-        title.setGravity(Gravity.CENTER);
-        title.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
-        top.addView(title, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
-        root.addView(top, new LinearLayout.LayoutParams(
+        root.setBackgroundColor(COLOR_PAGE);
+        root.addView(makeTopBar(sentenceStageTitle(), v -> showSentencePracticeChoice(currentLesson)), new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
 
@@ -761,7 +803,7 @@ public class MainActivity extends Activity {
 
         TextView progress = new TextView(this);
         progress.setText(sentenceProgressText());
-        progress.setTextColor(Color.rgb(93, 109, 126));
+        progress.setTextColor(COLOR_MUTED);
         progress.setTextSize(15);
         progress.setGravity(Gravity.CENTER);
         body.addView(progress, new LinearLayout.LayoutParams(
@@ -772,7 +814,7 @@ public class MainActivity extends Activity {
         card.setOrientation(LinearLayout.VERTICAL);
         card.setGravity(Gravity.CENTER);
         card.setPadding(dp(18), dp(24), dp(18), dp(24));
-        card.setBackgroundColor(Color.rgb(250, 252, 255));
+        stylePracticeCard(card);
         LinearLayout.LayoutParams cardLp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 0,
@@ -781,7 +823,7 @@ public class MainActivity extends Activity {
 
         TextView prompt = new TextView(this);
         prompt.setText(sentencePromptText(sentence));
-        prompt.setTextColor(Color.rgb(20, 36, 56));
+        prompt.setTextColor(COLOR_TEXT);
         prompt.setTextSize(30);
         prompt.setGravity(Gravity.CENTER);
         prompt.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
@@ -791,7 +833,7 @@ public class MainActivity extends Activity {
 
         TextView answer = new TextView(this);
         answer.setText(sentenceAnswerText(sentence));
-        answer.setTextColor(Color.rgb(13, 103, 196));
+        answer.setTextColor(COLOR_PRIMARY);
         answer.setTextSize(24);
         answer.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams answerLp = new LinearLayout.LayoutParams(
@@ -813,7 +855,7 @@ public class MainActivity extends Activity {
                 controls.addView(repeat, fullButtonLp(0));
             }
 
-            Button show = makeButton("查看答案");
+            Button show = makePrimaryButton("查看答案");
             show.setOnClickListener(v -> {
                 sentenceAnswerShown = true;
                 showSentencePromptPractice(false);
@@ -821,7 +863,7 @@ public class MainActivity extends Activity {
             });
             controls.addView(show, fullButtonLp(hasPromptAudio ? dp(10) : 0));
         } else {
-            Button listenAgain = makeButton("再听一遍");
+            Button listenAgain = makePrimaryButton("再听一遍");
             listenAgain.setOnClickListener(v -> playSentenceAnswer(sentence));
             controls.addView(listenAgain, fullButtonLp(0));
 
@@ -829,7 +871,7 @@ public class MainActivity extends Activity {
             row.setOrientation(LinearLayout.HORIZONTAL);
             row.setGravity(Gravity.CENTER);
 
-            Button mastered = makeButton("会了");
+            Button mastered = makePrimaryButton("会了");
             mastered.setOnClickListener(v -> completeCurrentSentence(true));
             row.addView(mastered, new LinearLayout.LayoutParams(0, dp(52), 1));
 
@@ -980,28 +1022,8 @@ public class MainActivity extends Activity {
 
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
-        root.setBackgroundColor(Color.WHITE);
-
-        LinearLayout top = new LinearLayout(this);
-        top.setOrientation(LinearLayout.HORIZONTAL);
-        top.setGravity(Gravity.CENTER_VERTICAL);
-        top.setPadding(dp(8), dp(6), dp(8), dp(6));
-        top.setBackgroundColor(Color.rgb(244, 247, 251));
-
-        Button back = new Button(this);
-        back.setText("Back");
-        back.setAllCaps(false);
-        back.setOnClickListener(v -> showSentencePracticeChoice(currentLesson));
-        top.addView(back, new LinearLayout.LayoutParams(dp(86), dp(48)));
-
-        TextView title = new TextView(this);
-        title.setText(transferStageTitle());
-        title.setTextColor(Color.rgb(24, 38, 58));
-        title.setTextSize(17);
-        title.setGravity(Gravity.CENTER);
-        title.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
-        top.addView(title, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
-        root.addView(top, new LinearLayout.LayoutParams(
+        root.setBackgroundColor(COLOR_PAGE);
+        root.addView(makeTopBar(transferStageTitle(), v -> showSentencePracticeChoice(currentLesson)), new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
 
@@ -1012,7 +1034,7 @@ public class MainActivity extends Activity {
 
         TextView progress = new TextView(this);
         progress.setText(transferProgressText());
-        progress.setTextColor(Color.rgb(93, 109, 126));
+        progress.setTextColor(COLOR_MUTED);
         progress.setTextSize(15);
         progress.setGravity(Gravity.CENTER);
         body.addView(progress, new LinearLayout.LayoutParams(
@@ -1023,7 +1045,7 @@ public class MainActivity extends Activity {
         card.setOrientation(LinearLayout.VERTICAL);
         card.setGravity(Gravity.CENTER);
         card.setPadding(dp(18), dp(24), dp(18), dp(24));
-        card.setBackgroundColor(Color.rgb(250, 252, 255));
+        stylePracticeCard(card);
         LinearLayout.LayoutParams cardLp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 0,
@@ -1032,7 +1054,7 @@ public class MainActivity extends Activity {
 
         TextView prompt = new TextView(this);
         prompt.setText(transferPromptText(transfer));
-        prompt.setTextColor(Color.rgb(20, 36, 56));
+        prompt.setTextColor(COLOR_TEXT);
         prompt.setTextSize(29);
         prompt.setGravity(Gravity.CENTER);
         prompt.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
@@ -1042,7 +1064,7 @@ public class MainActivity extends Activity {
 
         TextView answer = new TextView(this);
         answer.setText(transferAnswerText(transfer));
-        answer.setTextColor(Color.rgb(13, 103, 196));
+        answer.setTextColor(COLOR_PRIMARY);
         answer.setTextSize(23);
         answer.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams answerLp = new LinearLayout.LayoutParams(
@@ -1061,7 +1083,7 @@ public class MainActivity extends Activity {
             repeat.setOnClickListener(v -> playTransferPrompt(transfer));
             controls.addView(repeat, fullButtonLp(0));
 
-            Button show = makeButton("查看答案");
+            Button show = makePrimaryButton("查看答案");
             show.setOnClickListener(v -> {
                 transferAnswerShown = true;
                 showTransferPractice(false);
@@ -1069,7 +1091,7 @@ public class MainActivity extends Activity {
             });
             controls.addView(show, fullButtonLp(dp(10)));
         } else {
-            Button listenAgain = makeButton("再听一遍");
+            Button listenAgain = makePrimaryButton("再听一遍");
             listenAgain.setOnClickListener(v -> playTransferAnswer(transfer));
             controls.addView(listenAgain, fullButtonLp(0));
 
@@ -1077,7 +1099,7 @@ public class MainActivity extends Activity {
             row.setOrientation(LinearLayout.HORIZONTAL);
             row.setGravity(Gravity.CENTER);
 
-            Button mastered = makeButton("会了");
+            Button mastered = makePrimaryButton("会了");
             mastered.setOnClickListener(v -> completeCurrentTransfer(true));
             row.addView(mastered, new LinearLayout.LayoutParams(0, dp(52), 1));
 
@@ -1188,29 +1210,8 @@ public class MainActivity extends Activity {
 
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
-        root.setBackgroundColor(Color.WHITE);
-
-        LinearLayout top = new LinearLayout(this);
-        top.setOrientation(LinearLayout.HORIZONTAL);
-        top.setGravity(Gravity.CENTER_VERTICAL);
-        top.setPadding(dp(8), dp(6), dp(8), dp(6));
-        top.setBackgroundColor(Color.rgb(244, 247, 251));
-
-        Button back = new Button(this);
-        back.setText("Back");
-        back.setAllCaps(false);
-        back.setOnClickListener(v -> showSentencePracticeChoice(lesson));
-        top.addView(back, new LinearLayout.LayoutParams(dp(86), dp(48)));
-
-        TextView title = new TextView(this);
-        title.setText(lesson.subtitle);
-        title.setTextColor(Color.rgb(24, 38, 58));
-        title.setTextSize(17);
-        title.setGravity(Gravity.CENTER);
-        title.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
-        top.addView(title, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
-
-        root.addView(top, new LinearLayout.LayoutParams(
+        root.setBackgroundColor(COLOR_PAGE);
+        root.addView(makeTopBar(lesson.subtitle, v -> showSentencePracticeChoice(lesson)), new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
 
@@ -1226,17 +1227,13 @@ public class MainActivity extends Activity {
         controls.setOrientation(LinearLayout.HORIZONTAL);
         controls.setGravity(Gravity.CENTER);
         controls.setPadding(dp(10), dp(8), dp(10), dp(10));
-        controls.setBackgroundColor(Color.rgb(244, 247, 251));
+        controls.setBackgroundColor(COLOR_TOP_BAR);
 
-        Button playAll = new Button(this);
-        playAll.setText("Play All");
-        playAll.setAllCaps(false);
+        Button playAll = makePrimaryButton("顺序播放");
         playAll.setOnClickListener(v -> startSequence());
         controls.addView(playAll, new LinearLayout.LayoutParams(0, dp(52), 1));
 
-        Button stop = new Button(this);
-        stop.setText("Stop");
-        stop.setAllCaps(false);
+        Button stop = makeButton("停止");
         stop.setOnClickListener(v -> stopPlayback());
         LinearLayout.LayoutParams stopLp = new LinearLayout.LayoutParams(0, dp(52), 1);
         stopLp.setMargins(dp(10), 0, 0, 0);
@@ -1609,7 +1606,7 @@ public class MainActivity extends Activity {
 
         LessonView(Activity activity) {
             super(activity);
-            setBackgroundColor(Color.WHITE);
+            setBackgroundColor(COLOR_PAGE);
             setFocusable(true);
             touchSlop = ViewConfiguration.get(activity).getScaledTouchSlop();
         }
@@ -1801,7 +1798,7 @@ public class MainActivity extends Activity {
             float y = getHeight() - dp(14);
             for (int i = 0; i < count; i++) {
                 cardPaint.setStyle(Paint.Style.FILL);
-                cardPaint.setColor(i == pageIndex ? Color.rgb(13, 103, 196) : Color.rgb(190, 199, 209));
+                cardPaint.setColor(i == pageIndex ? COLOR_PRIMARY : Color.rgb(190, 199, 209));
                 canvas.drawCircle(x, y, radius, cardPaint);
                 x += radius * 2f + gap;
             }
@@ -1865,7 +1862,7 @@ public class MainActivity extends Activity {
                 String part = parts[i];
                 String clean = part.replace(".", "").replace(",", "").replace("'", "").toLowerCase();
                 if (i == 0) {
-                    textPaint.setColor(Color.rgb(13, 103, 196));
+                    textPaint.setColor(COLOR_PRIMARY);
                 } else if ("not".equals(clean)) {
                     textPaint.setColor(Color.rgb(211, 47, 47));
                 } else {
