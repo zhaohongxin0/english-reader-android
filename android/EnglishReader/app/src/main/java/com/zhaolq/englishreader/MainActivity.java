@@ -113,7 +113,7 @@ public class MainActivity extends Activity {
                 button.setMinHeight(dp(76));
                 button.setOnClickListener(v -> {
                     try {
-                        showLessonStart(loadLesson(item.getString("manifest")));
+                        showLessonModeChoice(loadLesson(item.getString("manifest")));
                     } catch (Exception e) {
                         showError(e);
                     }
@@ -151,6 +151,81 @@ public class MainActivity extends Activity {
         } catch (Exception e) {
             showError(e);
         }
+    }
+
+    private void showLessonModeChoice(Lesson lesson) {
+        stopPlayback();
+        currentLesson = lesson;
+
+        LinearLayout root = new LinearLayout(this);
+        root.setOrientation(LinearLayout.VERTICAL);
+        root.setBackgroundColor(Color.rgb(247, 249, 252));
+
+        LinearLayout top = new LinearLayout(this);
+        top.setOrientation(LinearLayout.HORIZONTAL);
+        top.setGravity(Gravity.CENTER_VERTICAL);
+        top.setPadding(dp(8), dp(6), dp(8), dp(6));
+        top.setBackgroundColor(Color.rgb(244, 247, 251));
+
+        Button back = new Button(this);
+        back.setText("Back");
+        back.setAllCaps(false);
+        back.setOnClickListener(v -> showLessonList());
+        top.addView(back, new LinearLayout.LayoutParams(dp(86), dp(48)));
+
+        TextView header = new TextView(this);
+        header.setText(lesson.title);
+        header.setTextColor(Color.rgb(24, 38, 58));
+        header.setTextSize(18);
+        header.setGravity(Gravity.CENTER);
+        header.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
+        top.addView(header, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        root.addView(top, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        LinearLayout body = new LinearLayout(this);
+        body.setOrientation(LinearLayout.VERTICAL);
+        body.setGravity(Gravity.CENTER_HORIZONTAL);
+        body.setPadding(dp(20), dp(42), dp(20), dp(20));
+
+        TextView title = new TextView(this);
+        title.setText(lesson.subtitle);
+        title.setTextColor(Color.rgb(29, 43, 64));
+        title.setTextSize(24);
+        title.setGravity(Gravity.CENTER);
+        title.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
+        body.addView(title, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        TextView prompt = new TextView(this);
+        prompt.setText("选择练习内容");
+        prompt.setTextColor(Color.rgb(93, 109, 126));
+        prompt.setTextSize(16);
+        prompt.setGravity(Gravity.CENTER);
+        LinearLayout.LayoutParams promptLp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        promptLp.setMargins(0, dp(16), 0, dp(20));
+        body.addView(prompt, promptLp);
+
+        Button words = makeButton("词汇练习");
+        words.setMinHeight(dp(82));
+        words.setEnabled(!lesson.words.isEmpty());
+        words.setOnClickListener(v -> startWordPractice(lesson));
+        body.addView(words, modeButtonLp(dp(12)));
+
+        Button sentences = makeButton("句子练习");
+        sentences.setMinHeight(dp(82));
+        sentences.setOnClickListener(v -> showSentenceLesson(lesson));
+        body.addView(sentences, modeButtonLp(dp(16)));
+
+        root.addView(body, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                0,
+                1));
+        setContentView(root);
     }
 
     private Lesson loadLesson(String manifestPath) throws Exception {
@@ -379,6 +454,14 @@ public class MainActivity extends Activity {
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 dp(52));
+        lp.setMargins(0, topMargin, 0, 0);
+        return lp;
+    }
+
+    private LinearLayout.LayoutParams modeButtonLp(int topMargin) {
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.setMargins(0, topMargin, 0, 0);
         return lp;
     }
