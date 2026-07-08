@@ -64,6 +64,10 @@ public class MainActivity extends Activity {
     private int sentencePosition = 0;
     private boolean sentenceAnswerShown = false;
     private final List<Integer> sentenceQueue = new ArrayList<>();
+    private int transferStage = TRANSFER_STAGE_ZH_TO_EN;
+    private int transferPosition = 0;
+    private boolean transferAnswerShown = false;
+    private final List<Integer> transferQueue = new ArrayList<>();
     private Runnable backAction;
 
     private static final int WORD_STAGE_FOLLOW = 0;
@@ -71,6 +75,8 @@ public class MainActivity extends Activity {
     private static final int WORD_STAGE_EN_TO_ZH = 2;
     private static final int SENTENCE_STAGE_ZH_TO_EN = 0;
     private static final int SENTENCE_STAGE_EN_TO_ZH = 1;
+    private static final int TRANSFER_STAGE_ZH_TO_EN = 0;
+    private static final int TRANSFER_STAGE_EN_TO_ZH = 1;
     private static final String RELEASE_API_URL =
             "https://api.github.com/repos/zhaohongxin0/english-reader-android/releases/latest";
     private static final String APK_MIME_TYPE = "application/vnd.android.package-archive";
@@ -314,6 +320,12 @@ public class MainActivity extends Activity {
         promptPractice.setOnClickListener(v -> startSentencePromptPractice(lesson));
         body.addView(promptPractice, modeButtonLp(dp(16)));
 
+        Button transfer = makeButton("举一反三");
+        transfer.setMinHeight(dp(82));
+        transfer.setEnabled(!lesson.transferItems.isEmpty());
+        transfer.setOnClickListener(v -> startTransferPractice(lesson));
+        body.addView(transfer, modeButtonLp(dp(16)));
+
         root.addView(body, new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 0,
@@ -354,6 +366,18 @@ public class MainActivity extends Activity {
                     (float) (region.getDouble(0) + region.getDouble(2)),
                     (float) (region.getDouble(1) + region.getDouble(3)));
             lesson.items.add(sentence);
+        }
+        JSONArray transferItems = json.optJSONArray("transfer_practice");
+        if (transferItems != null) {
+            for (int i = 0; i < transferItems.length(); i++) {
+                JSONObject obj = transferItems.getJSONObject(i);
+                TransferItem transfer = new TransferItem();
+                transfer.text = obj.getString("text");
+                transfer.chinese = obj.getString("chinese");
+                transfer.audioPath = obj.getString("audio");
+                transfer.chineseAudioPath = obj.getString("chinese_audio");
+                lesson.transferItems.add(transfer);
+            }
         }
         try (InputStream stream = getAssets().open(lesson.imagePath)) {
             lesson.bitmap = BitmapFactory.decodeStream(stream);
@@ -909,6 +933,235 @@ public class MainActivity extends Activity {
         return true;
     }
 
+    private void startTransferPractice(Lesson lesson) {
+        stopPlayback();
+        currentLesson = lesson;
+        transferStage = TRANSFER_STAGE_ZH_TO_EN;
+        transferPosition = 0;
+        transferAnswerShown = false;
+        fillTransferQueue();
+        showTransferPractice(true);
+    }
+
+    private void fillTransferQueue() {
+        transferQueue.clear();
+        if (currentLesson == null) {
+            return;
+        }
+        for (int i = 0; i < currentLesson.transferItems.size(); i++) {
+            transferQueue.add(i);
+        }
+        transferPosition = 0;
+    }
+
+    private void showTransferPractice(boolean autoPlay) {
+        stopPlayback();
+        backAction = () -> showSentencePracticeChoice(currentLesson);
+        if (currentLesson == null || currentLesson.transferItems.isEmpty() || transferQueue.isEmpty()) {
+            if (currentLesson != null) {
+                showSentencePracticeChoice(currentLesson);
+            }
+            return;
+        }
+
+        TransferItem transfer = currentLesson.transferItems.get(transferQueue.get(transferPosition));
+
+        LinearLayout root = new LinearLayout(this);
+        root.setOrientation(LinearLayout.VERTICAL);
+        root.setBackgroundColor(Color.WHITE);
+
+        LinearLayout top = new LinearLayout(this);
+        top.setOrientation(LinearLayout.HORIZONTAL);
+        top.setGravity(Gravity.CENTER_VERTICAL);
+        top.setPadding(dp(8), dp(6), dp(8), dp(6));
+        top.setBackgroundColor(Color.rgb(244, 247, 251));
+
+        Button back = new Button(this);
+        back.setText("Back");
+        back.setAllCaps(false);
+        back.setOnClickListener(v -> showSentencePracticeChoice(currentLesson));
+        top.addView(back, new LinearLayout.LayoutParams(dp(86), dp(48)));
+
+        TextView title = new TextView(this);
+        title.setText(transferStageTitle());
+        title.setTextColor(Color.rgb(24, 38, 58));
+        title.setTextSize(17);
+        title.setGravity(Gravity.CENTER);
+        title.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
+        top.addView(title, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        root.addView(top, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        LinearLayout body = new LinearLayout(this);
+        body.setOrientation(LinearLayout.VERTICAL);
+        body.setGravity(Gravity.CENTER_HORIZONTAL);
+        body.setPadding(dp(18), dp(28), dp(18), dp(12));
+
+        TextView progress = new TextView(this);
+        progress.setText(transferProgressText());
+        progress.setTextColor(Color.rgb(93, 109, 126));
+        progress.setTextSize(15);
+        progress.setGravity(Gravity.CENTER);
+        body.addView(progress, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        LinearLayout card = new LinearLayout(this);
+        card.setOrientation(LinearLayout.VERTICAL);
+        card.setGravity(Gravity.CENTER);
+        card.setPadding(dp(18), dp(24), dp(18), dp(24));
+        card.setBackgroundColor(Color.rgb(250, 252, 255));
+        LinearLayout.LayoutParams cardLp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                0,
+                1);
+        cardLp.setMargins(0, dp(18), 0, dp(18));
+
+        TextView prompt = new TextView(this);
+        prompt.setText(transferPromptText(transfer));
+        prompt.setTextColor(Color.rgb(20, 36, 56));
+        prompt.setTextSize(29);
+        prompt.setGravity(Gravity.CENTER);
+        prompt.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
+        card.addView(prompt, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        TextView answer = new TextView(this);
+        answer.setText(transferAnswerText(transfer));
+        answer.setTextColor(Color.rgb(13, 103, 196));
+        answer.setTextSize(23);
+        answer.setGravity(Gravity.CENTER);
+        LinearLayout.LayoutParams answerLp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        answerLp.setMargins(0, dp(22), 0, 0);
+        card.addView(answer, answerLp);
+        body.addView(card, cardLp);
+
+        LinearLayout controls = new LinearLayout(this);
+        controls.setOrientation(LinearLayout.VERTICAL);
+        controls.setGravity(Gravity.CENTER);
+
+        if (!transferAnswerShown) {
+            Button repeat = makeButton("再听提示");
+            repeat.setOnClickListener(v -> playTransferPrompt(transfer));
+            controls.addView(repeat, fullButtonLp(0));
+
+            Button show = makeButton("查看答案");
+            show.setOnClickListener(v -> {
+                transferAnswerShown = true;
+                showTransferPractice(false);
+                playTransferAnswer(transfer);
+            });
+            controls.addView(show, fullButtonLp(dp(10)));
+        } else {
+            LinearLayout row = new LinearLayout(this);
+            row.setOrientation(LinearLayout.HORIZONTAL);
+            row.setGravity(Gravity.CENTER);
+
+            Button mastered = makeButton("会了");
+            mastered.setOnClickListener(v -> completeCurrentTransfer(true));
+            row.addView(mastered, new LinearLayout.LayoutParams(0, dp(52), 1));
+
+            Button retry = makeButton("再练一次");
+            retry.setOnClickListener(v -> completeCurrentTransfer(false));
+            LinearLayout.LayoutParams retryLp = new LinearLayout.LayoutParams(0, dp(52), 1);
+            retryLp.setMargins(dp(10), 0, 0, 0);
+            row.addView(retry, retryLp);
+            controls.addView(row, new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT));
+        }
+
+        body.addView(controls, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        root.addView(body, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                0,
+                1));
+        setContentView(root);
+
+        if (autoPlay) {
+            handler.postDelayed(() -> {
+                if (currentLesson != null && !transferQueue.isEmpty()) {
+                    playTransferPrompt(currentLesson.transferItems.get(transferQueue.get(transferPosition)));
+                }
+            }, 220);
+        }
+    }
+
+    private String transferStageTitle() {
+        return transferStage == TRANSFER_STAGE_ZH_TO_EN
+                ? "举一反三：看中文，说英文"
+                : "举一反三：听英文，说中文";
+    }
+
+    private String transferProgressText() {
+        return "没掌握的会继续出现，还剩 " + transferQueue.size() + " 句";
+    }
+
+    private String transferPromptText(TransferItem transfer) {
+        return transferStage == TRANSFER_STAGE_ZH_TO_EN ? transfer.chinese : transfer.text;
+    }
+
+    private String transferAnswerText(TransferItem transfer) {
+        if (!transferAnswerShown) {
+            return transferStage == TRANSFER_STAGE_ZH_TO_EN ? "请说出英文句子" : "请说出中文意思";
+        }
+        return transferStage == TRANSFER_STAGE_ZH_TO_EN ? transfer.text : transfer.chinese;
+    }
+
+    private void completeCurrentTransfer(boolean mastered) {
+        if (transferQueue.isEmpty()) {
+            advanceTransferStage();
+            return;
+        }
+        int current = transferQueue.remove(transferPosition);
+        if (!mastered) {
+            transferQueue.add(current);
+        }
+        if (transferQueue.isEmpty()) {
+            advanceTransferStage();
+            return;
+        }
+        if (transferPosition >= transferQueue.size()) {
+            transferPosition = 0;
+        }
+        transferAnswerShown = false;
+        showTransferPractice(true);
+    }
+
+    private void advanceTransferStage() {
+        if (transferStage == TRANSFER_STAGE_ZH_TO_EN) {
+            transferStage = TRANSFER_STAGE_EN_TO_ZH;
+            fillTransferQueue();
+            transferAnswerShown = false;
+            showTransferPractice(true);
+            return;
+        }
+        Toast.makeText(this, "举一反三练习完成", Toast.LENGTH_SHORT).show();
+        showSentencePracticeChoice(currentLesson);
+    }
+
+    private void playTransferPrompt(TransferItem transfer) {
+        if (transferStage == TRANSFER_STAGE_ZH_TO_EN) {
+            playOptionalAsset(transfer.chineseAudioPath);
+        } else {
+            playOptionalAsset(transfer.audioPath);
+        }
+    }
+
+    private void playTransferAnswer(TransferItem transfer) {
+        if (transferStage == TRANSFER_STAGE_ZH_TO_EN) {
+            playOptionalAsset(transfer.audioPath);
+        } else {
+            playOptionalAsset(transfer.chineseAudioPath);
+        }
+    }
+
     private void showSentenceLesson(Lesson lesson) {
         stopPlayback();
         currentLesson = lesson;
@@ -1284,6 +1537,7 @@ public class MainActivity extends Activity {
         Bitmap bitmap;
         final List<WordItem> words = new ArrayList<>();
         final List<SentenceItem> items = new ArrayList<>();
+        final List<TransferItem> transferItems = new ArrayList<>();
     }
 
     private static final class WordItem {
@@ -1299,6 +1553,13 @@ public class MainActivity extends Activity {
         String audioPath;
         String chineseAudioPath;
         RectF region;
+    }
+
+    private static final class TransferItem {
+        String text;
+        String chinese;
+        String audioPath;
+        String chineseAudioPath;
     }
 
     private static final class UpdateInfo {

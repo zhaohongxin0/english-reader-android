@@ -1,0 +1,824 @@
+{
+  "provider": "MiniMax",
+  "model": "speech-2.8-hd",
+  "english_voice_id": "English_Graceful_Lady",
+  "chinese_voice_id": "Chinese (Mandarin)_Crisp_Girl",
+  "audio_setting": {
+    "sample_rate": 32000,
+    "bitrate": 256000,
+    "format": "mp3",
+    "channel": 1
+  },
+  "items": [
+    {
+      "id": "01",
+      "english": "This is an apple.",
+      "chinese": "这是一个苹果。",
+      "english_audio": {
+        "text": "This is an apple.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "01_en.mp3",
+        "bytes": 54132,
+        "audio_length": 1620,
+        "usage_characters": 17,
+        "trace_id": "069d515fdd69826113c9eb497b25307c",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "这是一个苹果。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "01_zh.mp3",
+        "bytes": 50676,
+        "audio_length": 1512,
+        "usage_characters": 13,
+        "trace_id": "069d5163d3e873f54af94544aa76f913",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "02",
+      "english": "That is an orange.",
+      "chinese": "那是一个橙子。",
+      "english_audio": {
+        "text": "That is an orange.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "02_en.mp3",
+        "bytes": 59892,
+        "audio_length": 1800,
+        "usage_characters": 18,
+        "trace_id": "069d516732d1ec6e79695f864e571780",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "那是一个橙子。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "02_zh.mp3",
+        "bytes": 50676,
+        "audio_length": 1512,
+        "usage_characters": 13,
+        "trace_id": "069d516ab9b5d7c62968847e3da0b2fa",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "03",
+      "english": "This is a book.",
+      "chinese": "这是一本书。",
+      "english_audio": {
+        "text": "This is a book.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "03_en.mp3",
+        "bytes": 46068,
+        "audio_length": 1368,
+        "usage_characters": 15,
+        "trace_id": "069d516fdae31584564d6929fce59777",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "这是一本书。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "03_zh.mp3",
+        "bytes": 47220,
+        "audio_length": 1404,
+        "usage_characters": 11,
+        "trace_id": "069d51723caf89079d5ef18ff749d95b",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "04",
+      "english": "That is a pencil.",
+      "chinese": "那是一支铅笔。",
+      "english_audio": {
+        "text": "That is a pencil.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "04_en.mp3",
+        "bytes": 55284,
+        "audio_length": 1656,
+        "usage_characters": 17,
+        "trace_id": "069d5175a02430d9c26449e96af87f2e",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "那是一支铅笔。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "04_zh.mp3",
+        "bytes": 54132,
+        "audio_length": 1620,
+        "usage_characters": 13,
+        "trace_id": "069d517994c841fdb6ec478e94018dad",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "05",
+      "english": "This is a ruler.",
+      "chinese": "这是一把尺子。",
+      "english_audio": {
+        "text": "This is a ruler.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "05_en.mp3",
+        "bytes": 61044,
+        "audio_length": 1836,
+        "usage_characters": 16,
+        "trace_id": "069d517cc69d31652ce1779b3c095b70",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "这是一把尺子。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "05_zh.mp3",
+        "bytes": 50676,
+        "audio_length": 1512,
+        "usage_characters": 13,
+        "trace_id": "069d517ff2a2f9e2dc45cf63a455601e",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "06",
+      "english": "That is a bag.",
+      "chinese": "那是一个书包。",
+      "english_audio": {
+        "text": "That is a bag.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "06_en.mp3",
+        "bytes": 55284,
+        "audio_length": 1656,
+        "usage_characters": 14,
+        "trace_id": "069d51821d59c8de5043891e60939da8",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "那是一个书包。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "06_zh.mp3",
+        "bytes": 50676,
+        "audio_length": 1512,
+        "usage_characters": 13,
+        "trace_id": "069d5186bf5442f07112fe83e152ed1f",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "07",
+      "english": "This is not a table. This is a chair.",
+      "chinese": "这不是一张桌子。这是一把椅子。",
+      "english_audio": {
+        "text": "This is not a table. This is a chair.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "07_en.mp3",
+        "bytes": 115188,
+        "audio_length": 3528,
+        "usage_characters": 37,
+        "trace_id": "069d5189fa67cf4148c6a3953a2fbe5b",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "这不是一张桌子。这是一把椅子。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "07_zh.mp3",
+        "bytes": 99060,
+        "audio_length": 3024,
+        "usage_characters": 28,
+        "trace_id": "069d518dda3d960d757641b7b4f07320",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "08",
+      "english": "That is not a desk. That is a bed.",
+      "chinese": "那不是一张课桌。那是一张床。",
+      "english_audio": {
+        "text": "That is not a desk. That is a bed.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "08_en.mp3",
+        "bytes": 140532,
+        "audio_length": 4320,
+        "usage_characters": 34,
+        "trace_id": "069d5190b3af03a1e4543ebbc5ad252d",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "那不是一张课桌。那是一张床。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "08_zh.mp3",
+        "bytes": 103668,
+        "audio_length": 3168,
+        "usage_characters": 26,
+        "trace_id": "069d51949680775c8777bad289365469",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "09",
+      "english": "This is not an apple. This is an orange.",
+      "chinese": "这不是一个苹果。这是一个橙子。",
+      "english_audio": {
+        "text": "This is not an apple. This is an orange.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "09_en.mp3",
+        "bytes": 147444,
+        "audio_length": 4536,
+        "usage_characters": 40,
+        "trace_id": "069d5198bbf479cd6d82771c26553462",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "这不是一个苹果。这是一个橙子。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "09_zh.mp3",
+        "bytes": 112884,
+        "audio_length": 3456,
+        "usage_characters": 28,
+        "trace_id": "069d519b2121b46fbce839d67d8d5be3",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "10",
+      "english": "That is not a book. That is a pencil.",
+      "chinese": "那不是一本书。那是一支铅笔。",
+      "english_audio": {
+        "text": "That is not a book. That is a pencil.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "10_en.mp3",
+        "bytes": 107124,
+        "audio_length": 3276,
+        "usage_characters": 37,
+        "trace_id": "069d519ff009adf78296790ef4cf4e4f",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "那不是一本书。那是一支铅笔。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "10_zh.mp3",
+        "bytes": 95604,
+        "audio_length": 2916,
+        "usage_characters": 26,
+        "trace_id": "069d51a2c628472e0a9b25d5888322b5",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "11",
+      "english": "These are apples.",
+      "chinese": "这些是苹果。",
+      "english_audio": {
+        "text": "These are apples.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "11_en.mp3",
+        "bytes": 80628,
+        "audio_length": 2448,
+        "usage_characters": 17,
+        "trace_id": "069d51a69eef26e06794f75ee9341456",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "这些是苹果。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "11_zh.mp3",
+        "bytes": 56436,
+        "audio_length": 1692,
+        "usage_characters": 11,
+        "trace_id": "069d51a9f05ad6222bb06af56641d14b",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "12",
+      "english": "Those are oranges.",
+      "chinese": "那些是橙子。",
+      "english_audio": {
+        "text": "Those are oranges.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "12_en.mp3",
+        "bytes": 66804,
+        "audio_length": 2016,
+        "usage_characters": 18,
+        "trace_id": "069d51acba24c23d873f69095a74fc70",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "那些是橙子。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "12_zh.mp3",
+        "bytes": 65652,
+        "audio_length": 1980,
+        "usage_characters": 11,
+        "trace_id": "069d51af6f0f125e9969b077a0153b7f",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "13",
+      "english": "These are books.",
+      "chinese": "这些是书。",
+      "english_audio": {
+        "text": "These are books.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "13_en.mp3",
+        "bytes": 59892,
+        "audio_length": 1800,
+        "usage_characters": 16,
+        "trace_id": "069d51b34f9b8d473fd078a66fecbb8a",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "这些是书。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "13_zh.mp3",
+        "bytes": 56436,
+        "audio_length": 1692,
+        "usage_characters": 9,
+        "trace_id": "069d51b698ee5a67f0e07832b1c4770b",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "14",
+      "english": "Those are pencils.",
+      "chinese": "那些是铅笔。",
+      "english_audio": {
+        "text": "Those are pencils.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "14_en.mp3",
+        "bytes": 67956,
+        "audio_length": 2052,
+        "usage_characters": 18,
+        "trace_id": "069d51bade58c5b65086ff68e5df711a",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "那些是铅笔。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "14_zh.mp3",
+        "bytes": 50676,
+        "audio_length": 1512,
+        "usage_characters": 11,
+        "trace_id": "069d51befa81bc8727e3191571e48266",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "15",
+      "english": "These are rulers.",
+      "chinese": "这些是尺子。",
+      "english_audio": {
+        "text": "These are rulers.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "15_en.mp3",
+        "bytes": 56436,
+        "audio_length": 1692,
+        "usage_characters": 17,
+        "trace_id": "069d51c0eaf7e750ec622d71dc84f9f5",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "这些是尺子。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "15_zh.mp3",
+        "bytes": 64500,
+        "audio_length": 1944,
+        "usage_characters": 11,
+        "trace_id": "069d51c4a14ec7ade44d43c3feec972d",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "16",
+      "english": "Those are bags.",
+      "chinese": "那些是书包。",
+      "english_audio": {
+        "text": "Those are bags.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "16_en.mp3",
+        "bytes": 55284,
+        "audio_length": 1656,
+        "usage_characters": 15,
+        "trace_id": "069d51c87a7bdbf57cec3f218c03232e",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "那些是书包。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "16_zh.mp3",
+        "bytes": 43764,
+        "audio_length": 1296,
+        "usage_characters": 11,
+        "trace_id": "069d51cb9be7f4f3ffb3087c7bea620c",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "17",
+      "english": "These are not tables. These are chairs.",
+      "chinese": "这些不是桌子。这些是椅子。",
+      "english_audio": {
+        "text": "These are not tables. These are chairs.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "17_en.mp3",
+        "bytes": 183156,
+        "audio_length": 5652,
+        "usage_characters": 39,
+        "trace_id": "069d51cee2cad91afbdda734ce6691b3",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "这些不是桌子。这些是椅子。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "17_zh.mp3",
+        "bytes": 103668,
+        "audio_length": 3168,
+        "usage_characters": 24,
+        "trace_id": "069d51d3b98245734044c9a3199384f6",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "18",
+      "english": "Those are not desks. Those are beds.",
+      "chinese": "那些不是课桌。那些是床。",
+      "english_audio": {
+        "text": "Those are not desks. Those are beds.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "18_en.mp3",
+        "bytes": 122100,
+        "audio_length": 3744,
+        "usage_characters": 36,
+        "trace_id": "069d51d6ce6cc5a35dd8943860a50f44",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "那些不是课桌。那些是床。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "18_zh.mp3",
+        "bytes": 96756,
+        "audio_length": 2952,
+        "usage_characters": 22,
+        "trace_id": "069d51dad3dc0366345e987f58c10971",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "19",
+      "english": "These are not apples. These are oranges.",
+      "chinese": "这些不是苹果。这些是橙子。",
+      "english_audio": {
+        "text": "These are not apples. These are oranges.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "19_en.mp3",
+        "bytes": 118644,
+        "audio_length": 3636,
+        "usage_characters": 40,
+        "trace_id": "069d51decad27896b61e75e28b6830cb",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "这些不是苹果。这些是橙子。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "19_zh.mp3",
+        "bytes": 93300,
+        "audio_length": 2844,
+        "usage_characters": 24,
+        "trace_id": "069d51e1b7f669325b0270c423fe2a7b",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "20",
+      "english": "Those are not books. Those are pencils.",
+      "chinese": "那些不是书。那些是铅笔。",
+      "english_audio": {
+        "text": "Those are not books. Those are pencils.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "20_en.mp3",
+        "bytes": 140532,
+        "audio_length": 4320,
+        "usage_characters": 39,
+        "trace_id": "069d51e6d5bf7314267e0a942270326b",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "那些不是书。那些是铅笔。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "20_zh.mp3",
+        "bytes": 107124,
+        "audio_length": 3276,
+        "usage_characters": 22,
+        "trace_id": "069d51e9373b82a2ac3283a15cc5ac03",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "21",
+      "english": "This is an egg.",
+      "chinese": "这是一个鸡蛋。",
+      "english_audio": {
+        "text": "This is an egg.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "21_en.mp3",
+        "bytes": 59892,
+        "audio_length": 1800,
+        "usage_characters": 15,
+        "trace_id": "069d51eda5211cb178ac58e4f5bc4790",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "这是一个鸡蛋。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "21_zh.mp3",
+        "bytes": 50676,
+        "audio_length": 1512,
+        "usage_characters": 13,
+        "trace_id": "069d51f0a160f45a2e4f58852a85fbc3",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "22",
+      "english": "That is an umbrella.",
+      "chinese": "那是一把伞。",
+      "english_audio": {
+        "text": "That is an umbrella.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "22_en.mp3",
+        "bytes": 67956,
+        "audio_length": 2052,
+        "usage_characters": 20,
+        "trace_id": "069d51f2fa27f74b45c08faeced9417e",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "那是一把伞。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "22_zh.mp3",
+        "bytes": 44916,
+        "audio_length": 1332,
+        "usage_characters": 11,
+        "trace_id": "069d51f54a5c023dfb45f53f0d68fefa",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "23",
+      "english": "These are eggs.",
+      "chinese": "这些是鸡蛋。",
+      "english_audio": {
+        "text": "These are eggs.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "23_en.mp3",
+        "bytes": 67956,
+        "audio_length": 2052,
+        "usage_characters": 15,
+        "trace_id": "069d51f86f10e6f26b49f24b799f507a",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "这些是鸡蛋。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "23_zh.mp3",
+        "bytes": 57588,
+        "audio_length": 1728,
+        "usage_characters": 11,
+        "trace_id": "069d51fb70d9a36577e4ebcd12fd0bf2",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "24",
+      "english": "Those are umbrellas.",
+      "chinese": "那些是伞。",
+      "english_audio": {
+        "text": "Those are umbrellas.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "24_en.mp3",
+        "bytes": 77172,
+        "audio_length": 2340,
+        "usage_characters": 20,
+        "trace_id": "069d51ffc7de8934737e9253e6786629",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "那些是伞。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "24_zh.mp3",
+        "bytes": 41460,
+        "audio_length": 1224,
+        "usage_characters": 9,
+        "trace_id": "069d52028dd09a8b341d0380be1339ef",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "25",
+      "english": "That's an orange.",
+      "chinese": "那是一个橙子。",
+      "english_audio": {
+        "text": "That's an orange.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "25_en.mp3",
+        "bytes": 47220,
+        "audio_length": 1404,
+        "usage_characters": 17,
+        "trace_id": "069d5205ab2d25e49fc64cbe14fe4784",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "那是一个橙子。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "25_zh.mp3",
+        "bytes": 50676,
+        "audio_length": 1512,
+        "usage_characters": 13,
+        "trace_id": "069d5207f3a206260a2d4bd766ada74b",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "26",
+      "english": "That's a pencil.",
+      "chinese": "那是一支铅笔。",
+      "english_audio": {
+        "text": "That's a pencil.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "26_en.mp3",
+        "bytes": 55284,
+        "audio_length": 1656,
+        "usage_characters": 16,
+        "trace_id": "069d520a103a0b9692fed0b51fd6d2db",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "那是一支铅笔。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "26_zh.mp3",
+        "bytes": 50676,
+        "audio_length": 1512,
+        "usage_characters": 13,
+        "trace_id": "069d520e6d18f619be79693570bc6e67",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "27",
+      "english": "That's a bag.",
+      "chinese": "那是一个书包。",
+      "english_audio": {
+        "text": "That's a bag.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "27_en.mp3",
+        "bytes": 42612,
+        "audio_length": 1260,
+        "usage_characters": 13,
+        "trace_id": "069d5213f920816df702f00d1211ed67",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "那是一个书包。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "27_zh.mp3",
+        "bytes": 47220,
+        "audio_length": 1404,
+        "usage_characters": 13,
+        "trace_id": "069d5216c9204526a240ddbdddfd3335",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "28",
+      "english": "That's not a desk. That's a bed.",
+      "chinese": "那不是一张课桌。那是一张床。",
+      "english_audio": {
+        "text": "That's not a desk. That's a bed.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "28_en.mp3",
+        "bytes": 96756,
+        "audio_length": 2952,
+        "usage_characters": 32,
+        "trace_id": "069d5219c8effdddaabb7d789cb6c795",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "那不是一张课桌。那是一张床。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "28_zh.mp3",
+        "bytes": 97908,
+        "audio_length": 2988,
+        "usage_characters": 26,
+        "trace_id": "069d521ed828d72cedf067661c456dc2",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "29",
+      "english": "That's not a book. That's a pencil.",
+      "chinese": "那不是一本书。那是一支铅笔。",
+      "english_audio": {
+        "text": "That's not a book. That's a pencil.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "29_en.mp3",
+        "bytes": 88692,
+        "audio_length": 2700,
+        "usage_characters": 35,
+        "trace_id": "069d52210869505ce95544a29bb34d8a",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "那不是一本书。那是一支铅笔。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "29_zh.mp3",
+        "bytes": 115188,
+        "audio_length": 3528,
+        "usage_characters": 26,
+        "trace_id": "069d52258c4949e9f977e55056be7ed1",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    },
+    {
+      "id": "30",
+      "english": "That's an umbrella.",
+      "chinese": "那是一把伞。",
+      "english_audio": {
+        "text": "That's an umbrella.",
+        "language_boost": "English",
+        "voice_id": "English_Graceful_Lady",
+        "file": "30_en.mp3",
+        "bytes": 73716,
+        "audio_length": 2232,
+        "usage_characters": 19,
+        "trace_id": "069d5229c5d20ba1a692ab72fd20065d",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      },
+      "chinese_audio": {
+        "text": "那是一把伞。",
+        "language_boost": "Chinese",
+        "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+        "file": "30_zh.mp3",
+        "bytes": 44916,
+        "audio_length": 1332,
+        "usage_characters": 11,
+        "trace_id": "069d522c5348a5c5165585eb91190b78",
+        "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+      }
+    }
+  ]
+}

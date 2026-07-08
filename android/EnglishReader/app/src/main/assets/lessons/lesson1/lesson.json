@@ -98,5 +98,187 @@
       "chinese_audio": "lessons/lesson1/audio/08_zh.mp3",
       "region": [0.0, 0.875, 1.0, 0.125]
     }
+  ],
+  "transfer_practice": [
+    {
+      "text": "This is an apple.",
+      "chinese": "这是一个苹果。",
+      "audio": "lessons/lesson1/transfer/audio/01_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/01_zh.mp3"
+    },
+    {
+      "text": "That is an orange.",
+      "chinese": "那是一个橙子。",
+      "audio": "lessons/lesson1/transfer/audio/02_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/02_zh.mp3"
+    },
+    {
+      "text": "This is a book.",
+      "chinese": "这是一本书。",
+      "audio": "lessons/lesson1/transfer/audio/03_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/03_zh.mp3"
+    },
+    {
+      "text": "That is a pencil.",
+      "chinese": "那是一支铅笔。",
+      "audio": "lessons/lesson1/transfer/audio/04_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/04_zh.mp3"
+    },
+    {
+      "text": "This is a ruler.",
+      "chinese": "这是一把尺子。",
+      "audio": "lessons/lesson1/transfer/audio/05_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/05_zh.mp3"
+    },
+    {
+      "text": "That is a bag.",
+      "chinese": "那是一个书包。",
+      "audio": "lessons/lesson1/transfer/audio/06_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/06_zh.mp3"
+    },
+    {
+      "text": "This is not a table. This is a chair.",
+      "chinese": "这不是一张桌子。这是一把椅子。",
+      "audio": "lessons/lesson1/transfer/audio/07_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/07_zh.mp3"
+    },
+    {
+      "text": "That is not a desk. That is a bed.",
+      "chinese": "那不是一张课桌。那是一张床。",
+      "audio": "lessons/lesson1/transfer/audio/08_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/08_zh.mp3"
+    },
+    {
+      "text": "This is not an apple. This is an orange.",
+      "chinese": "这不是一个苹果。这是一个橙子。",
+      "audio": "lessons/lesson1/transfer/audio/09_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/09_zh.mp3"
+    },
+    {
+      "text": "That is not a book. That is a pencil.",
+      "chinese": "那不是一本书。那是一支铅笔。",
+      "audio": "lessons/lesson1/transfer/audio/10_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/10_zh.mp3"
+    },
+    {
+      "text": "These are apples.",
+      "chinese": "这些是苹果。",
+      "audio": "lessons/lesson1/transfer/audio/11_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/11_zh.mp3"
+    },
+    {
+      "text": "Those are oranges.",
+      "chinese": "那些是橙子。",
+      "audio": "lessons/lesson1/transfer/audio/12_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/12_zh.mp3"
+    },
+    {
+      "text": "These are books.",
+      "chinese": "这些是书。",
+      "audio": "lessons/lesson1/transfer/audio/13_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/13_zh.mp3"
+    },
+    {
+      "text": "Those are pencils.",
+      "chinese": "那些是铅笔。",
+      "audio": "lessons/lesson1/transfer/audio/14_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/14_zh.mp3"
+    },
+    {
+      "text": "These are rulers.",
+      "chinese": "这些是尺子。",
+      "audio": "lessons/lesson1/transfer/audio/15_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/15_zh.mp3"
+    },
+    {
+      "text": "Those are bags.",
+      "chinese": "那些是书包。",
+      "audio": "lessons/lesson1/transfer/audio/16_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/16_zh.mp3"
+    },
+    {
+      "text": "These are not tables. These are chairs.",
+      "chinese": "这些不是桌子。这些是椅子。",
+      "audio": "lessons/lesson1/transfer/audio/17_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/17_zh.mp3"
+    },
+    {
+      "text": "Those are not desks. Those are beds.",
+      "chinese": "那些不是课桌。那些是床。",
+      "audio": "lessons/lesson1/transfer/audio/18_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/18_zh.mp3"
+    },
+    {
+      "text": "These are not apples. These are oranges.",
+      "chinese": "这些不是苹果。这些是橙子。",
+      "audio": "lessons/lesson1/transfer/audio/19_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/19_zh.mp3"
+    },
+    {
+      "text": "Those are not books. Those are pencils.",
+      "chinese": "那些不是书。那些是铅笔。",
+      "audio": "lessons/lesson1/transfer/audio/20_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/20_zh.mp3"
+    },
+    {
+      "text": "This is an egg.",
+      "chinese": "这是一个鸡蛋。",
+      "audio": "lessons/lesson1/transfer/audio/21_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/21_zh.mp3"
+    },
+    {
+      "text": "That is an umbrella.",
+      "chinese": "那是一把伞。",
+      "audio": "lessons/lesson1/transfer/audio/22_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/22_zh.mp3"
+    },
+    {
+      "text": "These are eggs.",
+      "chinese": "这些是鸡蛋。",
+      "audio": "lessons/lesson1/transfer/audio/23_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/23_zh.mp3"
+    },
+    {
+      "text": "Those are umbrellas.",
+      "chinese": "那些是伞。",
+      "audio": "lessons/lesson1/transfer/audio/24_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/24_zh.mp3"
+    },
+    {
+      "text": "That's an orange.",
+      "chinese": "那是一个橙子。",
+      "audio": "lessons/lesson1/transfer/audio/25_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/25_zh.mp3"
+    },
+    {
+      "text": "That's a pencil.",
+      "chinese": "那是一支铅笔。",
+      "audio": "lessons/lesson1/transfer/audio/26_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/26_zh.mp3"
+    },
+    {
+      "text": "That's a bag.",
+      "chinese": "那是一个书包。",
+      "audio": "lessons/lesson1/transfer/audio/27_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/27_zh.mp3"
+    },
+    {
+      "text": "That's not a desk. That's a bed.",
+      "chinese": "那不是一张课桌。那是一张床。",
+      "audio": "lessons/lesson1/transfer/audio/28_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/28_zh.mp3"
+    },
+    {
+      "text": "That's not a book. That's a pencil.",
+      "chinese": "那不是一本书。那是一支铅笔。",
+      "audio": "lessons/lesson1/transfer/audio/29_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/29_zh.mp3"
+    },
+    {
+      "text": "That's an umbrella.",
+      "chinese": "那是一把伞。",
+      "audio": "lessons/lesson1/transfer/audio/30_en.mp3",
+      "chinese_audio": "lessons/lesson1/transfer/audio/30_zh.mp3"
+    }
   ]
 }
