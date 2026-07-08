@@ -1,0 +1,96 @@
+{
+  "provider": "MiniMax",
+  "model": "speech-2.8-hd",
+  "voice_id": "Chinese (Mandarin)_Crisp_Girl",
+  "voice_speed": 1.04,
+  "voice_volume": 5.0,
+  "language_boost": "Chinese",
+  "audio_setting": {
+    "sample_rate": 32000,
+    "bitrate": 256000,
+    "format": "mp3",
+    "channel": 1
+  },
+  "items": [
+    {
+      "index": 1,
+      "text": "这是一张课桌。",
+      "file": "01_zh.mp3",
+      "bytes": 54132,
+      "audio_length": 1620,
+      "usage_characters": 13,
+      "trace_id": "069d4e27f40cc7f4a3e75ce44992b82c",
+      "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+    },
+    {
+      "index": 2,
+      "text": "那是一张桌子。",
+      "file": "02_zh.mp3",
+      "bytes": 54132,
+      "audio_length": 1620,
+      "usage_characters": 13,
+      "trace_id": "069d4e2af67a1b71bf0e243862ceb5cd",
+      "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+    },
+    {
+      "index": 3,
+      "text": "这些是课桌。",
+      "file": "03_zh.mp3",
+      "bytes": 47220,
+      "audio_length": 1404,
+      "usage_characters": 11,
+      "trace_id": "069d4e2eba1405bc0c76c71a95997ad6",
+      "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+    },
+    {
+      "index": 4,
+      "text": "那些是桌子。",
+      "file": "04_zh.mp3",
+      "bytes": 50676,
+      "audio_length": 1512,
+      "usage_characters": 11,
+      "trace_id": "069d4e3122bd785687ac8aec32b3ab17",
+      "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+    },
+    {
+      "index": 5,
+      "text": "这不是一张桌子。",
+      "file": "05_zh.mp3",
+      "bytes": 63348,
+      "audio_length": 1908,
+      "usage_characters": 15,
+      "trace_id": "069d4e35b560593f575f89d16d729d99",
+      "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+    },
+    {
+      "index": 6,
+      "text": "那不是一张课桌。",
+      "file": "06_zh.mp3",
+      "bytes": 56436,
+      "audio_length": 1692,
+      "usage_characters": 15,
+      "trace_id": "069d4e3a592747b428972f11c85d10a5",
+      "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+    },
+    {
+      "index": 7,
+      "text": "这些不是桌子。",
+      "file": "07_zh.mp3",
+      "bytes": 65652,
+      "audio_length": 1980,
+      "usage_characters": 13,
+      "trace_id": "069d4e3ead4a029bf914155788d90bbb",
+      "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+    },
+    {
+      "index": 8,
+      "text": "那些不是课桌。",
+      "file": "08_zh.mp3",
+      "bytes": 54132,
+      "audio_length": 1620,
+      "usage_characters": 13,
+      "trace_id": "069d4e42f75a329f72c65f9b584b6cdd",
+      "api_url": "https://api.minimaxi.com/v1/t2a_v2"
+    }
+  ]
+}
